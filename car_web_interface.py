@@ -45,4 +45,6 @@ class WebInterface:
         app = web.Application()
         app.add_routes([web.get('/', self.html_handler), web.get('/ws', self.websocket_handler)])
 
+        # .run_app is apparently just a wrapper for _run_app, which is an async function
+        # so we just call that, to omit the event loop voodoo magic leading to pain and suffering
         await web._run_app(app)

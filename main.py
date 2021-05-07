@@ -9,10 +9,17 @@ class CarController:
 
     def __init__(self):
         self.web_interface = car_web_interface.WebInterface()
-
+        
         cap = cv2.VideoCapture(0)
+
+        if cap is None or not cap.isOpened():
+            # There is no camera
+            print("There is no camera, make sure there is a camera passed through or a webcam plugged in (or both)")
+            os._exit(1)
+
         self.line_detector = image.LineFinder(cap)
 
+        # These are variables for the web interface and calculating where we need to go
         self.lines = []
         self.distance = 0
         self.theta = 0
@@ -21,7 +28,7 @@ class CarController:
     def start(self):
         # Ready? Set. Go!
         
-        # Start web interface
+        # Setup loop
         print("Getting async loop...")
         loop = asyncio.get_event_loop()
         asyncio.set_event_loop(loop)

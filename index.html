@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RaceX</title>
+
+    <style>
+        #distance-info h1,
+        #distance-info p {
+            display: inline;
+            vertical-align: top;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            line-height: 28px;
+}
+
+    </style>
+
+</head>
+<body>
+    
+    <div id="distance-info">
+        <h1>Distance: </h2>
+        <p id="distance"></p>
+    </div>
+
+    <br>
+
+    <h1>Lines:</h1>
+    <canvas id="line-canvas" width="853" height="480" style="border:1px solid #d3d3d3;">
+        Your browser does not support the HTML5 canvas tag.</canvas>
+    
+
+    <script>
+        const ws = new WebSocket('ws://localhost:8080/ws');
+        
+        ws.addEventListener('message', function (event) {
+            // Parse JSON and log
+            data = JSON.parse(event.data)
+            length = data.lines.length ? data.lines.length : 0
+            console.log(`Received message with ${length} lines and distance ` + data.distance)
+
+            // Update distance
+            document.getElementById("distance").innerHTML = data.distance
+
+            // Draw lines
+            var ctx = document.getElementById("line-canvas").getContext("2d")
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            for (var i = 0; i < data.lines.length; i++) {
+                var line = data.lines[i]
+                ctx.lineTo(line[0], line[1])
+                ctx.stroke()
+            }
+        })
+
+    </script>
+</body>
+</html>

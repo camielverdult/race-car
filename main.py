@@ -1,4 +1,4 @@
-from libraries import car_web_interface, hardware_interfacer, LSM6DS3, image
+from libraries import car_web_interface, hardware_interfacer, image
 
 import asyncio
 import os

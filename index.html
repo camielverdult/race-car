@@ -1,61 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RaceX</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 
     <style>
-        #distance-info h1,
-        #distance-info p {
-            display: inline;
-            vertical-align: top;
+        .flex {
+            display: flex;
+            justify-content: center;
+        }
+
+        .flex-item {
+            box-sizing: border-box;
+            width: 50%;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .data {
+            align-items: center;
+        }
+
+        .line-canvas {
+            border: 1px solid black; 
+            width: 100%;
+        }
+
+        * {
             font-family: 'Open Sans', sans-serif;
-            font-size: 16px;
-            line-height: 28px;
-}
-
+        }
     </style>
-
 </head>
+
 <body>
-    
-    <div id="distance-info">
-        <h1>Distance: </h2>
-        <p id="distance"></p>
+    <h1 id="socket-status" style="color: rgb(200, 0, 0);">Closed</h1>
+    <div class="flex">
+        <div class="flex-item">
+            <h3>Battery Data:</h3>
+            <br><br>
+            <div id="battery">
+                <h4>Voltage: <span id="voltage"></span></h4>
+                <h4>Current: <span id="current"></span></h4>
+                <h4>Power: <span id="power"></span></h4>
+            </div>
+        </div>
+        <div class="flex-item">
+            <h3>Lines:</h3>
+            <canvas class="line-canvas" width="100%" height="56.25%">Your browser does not support the HTML5 canvas tag.</canvas>
+            <div>
+                <h4>Theta: <span id="theta"></span></h2>
+                <h4>Distance: <span id="distance-measurement"></span> cm</h2>
+            </div>
+        </div>
     </div>
 
-    <br>
-
-    <h1>Lines:</h1>
-    <canvas id="line-canvas" width="853" height="480" style="border:1px solid #d3d3d3;">
-        Your browser does not support the HTML5 canvas tag.</canvas>
-    
+    <img id="ItemPreview" src="">
 
     <script>
-        const ws = new WebSocket('ws://localhost:8080/ws');
-        
-        ws.addEventListener('message', function (event) {
-            // Parse JSON and log
-            data = JSON.parse(event.data)
-            length = data.lines.length ? data.lines.length : 0
-            console.log(`Received message with ${length} lines and distance ` + data.distance)
+        var data = {}
 
-            // Update distance
-            document.getElementById("distance").innerHTML = data.distance
+        function map(value, in_min, in_max, out_min, out_max) {
+            return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        }
 
+        function map_line_coordinates(lines, resolution_in, canvas) {
+            // Lines should be [x_from, y_from, x_to, y_to]
+            // resolutions should be [x, y]
+            return [
+                map(lines[0], 0, resolution_in[0], 0, canvas.width),
+                map(lines[1], 0, resolution_in[1], 0, canvas.height),
+                map(lines[2], 0, resolution_in[0], 0, canvas.width),
+                map(lines[3], 0, resolution_in[1], 0, canvas.height)
+            ]
+        }
+
+        function draw(data) {
             // Draw lines
-            var ctx = document.getElementById("line-canvas").getContext("2d")
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            for (var i = 0; i < data.lines.length; i++) {
-                var line = data.lines[i]
-                ctx.lineTo(line[0], line[1])
-                ctx.stroke()
-            }
-        })
+            var canvas = document.getElementsByClassName("line-canvas")[0];
+            var ctx = canvas.getContext("2d");
 
-    </script>
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (var i = 0; i < data.lines.length; i++) {
+                line = data.lines[i][0];
+                line = map_line_coordinates(line, data.resolution, canvas);
+        
+                ctx.beginPath();
+                ctx.moveTo(line[0], line[1]);
+                ctx.lineTo(line[2], line[3]);
+                ctx.stroke();
+                return;
+            }
+        }
+
+        function ready() {
+
+            const ws = new WebSocket('ws://localhost:8080/ws');
+
+            ws.addEventListener('message', function (event) {
+                // Parse JSON and log
+                data = JSON.parse(event.data)
+
+                // Update distance
+                document.getElementById("distance-measurement").innerText = data.distance;
+
+                // Update battery stuff
+                document.getElementById("voltage").innerText = data.voltage;
+                document.getElementById("current").innerText = data.current;
+                document.getElementById("power").innerText = data.power;
+        
+                // Draw lines
+                const ctx = document.getElementsByClassName("line-canvas")[0].getContext("2d");
+                draw(data);
+
+                // Update theta
+                document.getElementById("theta").innerText = Math.round(data.theta);
+
+                document.getElementById("ItemPreview").src = "data:image/png;base64," + btoa(data.image);
+
+            })
+
+            ws.onopen = function(e) {
+                var s = document.getElementById("socket-status");
+                s.innerText = "Open";
+                s.style = "color: rgb(0, 200, 0);"
+            }
+
+            ws.onclose = function(e) {
+                var s = document.getElementById("socket-status");
+                s.innerText = "Closed";
+                s.style = "color: rgb(200, 0, 0);"
+            }
+        }
+
+        window.addEventListener('load', ready);
+    </script> 
+
 </body>
 </html>

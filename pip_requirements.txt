@@ -1,0 +1,6 @@
+aiohttp
+numpy
+asyncio
+RPi.GPIO
+gpiozero
+opencv-contrib-python==4.5.1.48

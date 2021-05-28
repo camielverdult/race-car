@@ -1,18 +1,18 @@
 from aiohttp import web
-import aiohttp, asyncio, socket
+import aiohttp, asyncio, socket, json
 
 class WebInterface:
 
-    def __init__(self):
-        self.ws = []
-        self.data = {
-            "distance" : 0,
-            "lines" : []
-        }
+    def __init__(self,):
+        self.data = {}
 
-    def update_values(self, distance = 0, lines = []):
-        self.data["distance"] = distance
-        self.data["lines"] = lines
+        self.fps = 10
+
+    def set_fps(self, fps):
+        self.fps = fps
+
+    def update_values(self, data):
+        self.data = data
 
     def get_html(self):
         with open("index.html", 'r') as f:
@@ -29,16 +29,15 @@ class WebInterface:
         
         try:
             while True:
+                # print(self.data["lines"])
                 await ws.send_json(self.data)
-                await asyncio.sleep(0.20)
-        except:
+                await asyncio.sleep(1.0/self.fps)
+                
+        except Exception as e:
             print("client disconnected probably")
+            print(e)
 
         return ws
-
-    async def send_data(self):
-        for client in self.ws:
-            await client.send_json(self.data)
 
     async def run(self):
         # Setup routes

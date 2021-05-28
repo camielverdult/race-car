@@ -1,0 +1,14 @@
+[Unit]
+Description=RaceX car code
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=pi
+ExecStart=$(/usr/bin/whereis python3) main.py
+
+[Install]
+WantedBy=multi-user.target

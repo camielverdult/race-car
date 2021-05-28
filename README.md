@@ -11,5 +11,10 @@ or
 
 ```
 python3 -m pip -r requirements.txt
+```
+
+## To run
+
+```
 python3 main.py
 ```

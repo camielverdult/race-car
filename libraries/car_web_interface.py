@@ -1,18 +1,11 @@
 from aiohttp import web
-import aiohttp, asyncio, socket, json
+import aiohttp, asyncio
+import data
 
 class WebInterface:
 
-    def __init__(self,):
-        self.data = {}
-
-        self.fps = 10
-
-    def set_fps(self, fps):
-        self.fps = fps
-
-    def update_values(self, data):
-        self.data = data
+    def __init__(self, json_function):
+        self.json_function = json_function
 
     def get_html(self):
         with open("index.html", 'r') as f:
@@ -29,9 +22,8 @@ class WebInterface:
         
         try:
             while True:
-                # print(self.data["lines"])
-                await ws.send_json(self.data)
-                await asyncio.sleep(1.0/self.fps)
+                await ws.send_json(self.json_function())
+                await asyncio.sleep(0.1)
                 
         except Exception as e:
             print("client disconnected probably")

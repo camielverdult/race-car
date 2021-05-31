@@ -1,12 +1,11 @@
-
-import time, gpiozero
+import gpiozero, adafruit_ina260, adafruit_bus_device, board
 
 class HwInterfacer:
 
     def __init__(self, 
-                sonar_echo_pin = 0, sonar_trig_pin = 0, 
-                servo_pin = 12, servo_steer_range = [55, 65], 
-                motor_pin = 13, motor_speed_range = [-1, 1]
+                sonar_echo_pin, sonar_trig_pin, 
+                servo_pin, servo_steer_range, 
+                motor_pin, motor_speed_range
                 ):
         # https://gpiozero.readthedocs.io/en/stable/api_output.html#servo
 
@@ -20,9 +19,6 @@ class HwInterfacer:
         self.servo = gpiozero.AngularServo(servo_pin)
         self.servo_steer_range = servo_steer_range
         self.servo_start_angle = (self.servo_steer_range[1] + self.servo_steer_range[0]) / 2
-
-        if self.servo_start_angle > 180 or self.servo_steer_range < 0:
-            self.servo_start_angle = 0
         
         self.servo.angle = self.servo_start_angle
 
@@ -45,15 +41,14 @@ class HwInterfacer:
         # Connect the free ends of both resistors to another GPIO pin. This forms the required voltage divider.
         # Finally, connect the VCC pin of the sensor to a 5V pin on the Pi.
 
-        self.sonar = gpiozero.DistanceSensor(sonar_echo_pin, sonar_trig_pin)
+        self.distance_sensor = gpiozero.DistanceSensor(sonar_echo_pin, sonar_trig_pin)
 
         # Set to default values
         print("Setting servo to start value {}".format(self.servo_start_angle))
         self.servo.angle = self.servo_start_angle
 
-    async def get_distance(self):
-        return self.sonar.distance
-        
+        self.power_sensor = adafruit_ina260.INA260(board.I2C())
+
     def set_servo(self, degrees):   
         self.servo.value = degrees  
 

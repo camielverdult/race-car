@@ -6,7 +6,7 @@ class LineFinder:
     def __init__(self, capture):
         self.capture = capture
 
-    def get_hough_mask(self, shape, edges, ignore_mask_color=255):
+    async def get_hough_mask(self, shape, edges, ignore_mask_color=255):
         # Next we'll create a masked edges image using cv2.fillPoly()
         mask = np.zeros_like(edges)
 
@@ -18,7 +18,7 @@ class LineFinder:
 
         return cv2.bitwise_and(edges, mask)
 
-    def apply_hough_transform(self, image):
+    async def apply_hough_transform(self, image):
         
         #Convert to Grey Image
         grey_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -32,7 +32,7 @@ class LineFinder:
         high_threshold = 150
         edges = cv2.Canny(blur_gray, low_threshold, high_threshold)
         
-        masked_edges = self.get_hough_mask(image.shape, edges)
+        masked_edges = await self.get_hough_mask(image.shape, edges)
         
         # Hough transform parameters
         rho = 2                 # distance resolution in pixels of the Hough grid
@@ -56,12 +56,12 @@ class LineFinder:
 
                     theta = theta + math.atan2((y2-y1), (x2-x1))
 
-            return [theta, lines.tolist()]
+            return (theta, lines.tolist())
 
-    def process_frame(self):
+    async def process_frame(self):
         _, frame = self.capture.read()
 
-        if hough := self.apply_hough_transform(frame):
+        if hough := await self.apply_hough_transform(frame):
             return hough
         else:
-            return [0, []]
+            return (0, [])

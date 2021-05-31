@@ -76,6 +76,9 @@ class CarController:
     async def value_updater(self):
         print("Starting line scanner...")
         while asyncio.get_event_loop().is_running():
+
+            self.data["distance"] = await self.hw_interfacer.get_distance()
+
             hough = self.line_detector.process_frame()
 
             self.data["theta"], self.data["lines"] = hough[0], hough[1]

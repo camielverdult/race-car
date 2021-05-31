@@ -50,10 +50,13 @@ class HwInterfacer:
         # Set to default values
         print("Setting servo to start value {}".format(self.servo_start_angle))
         self.servo.angle = self.servo_start_angle
- 
-    
+
+    async def get_distance(self):
+        return self.sonar.distance
+        
     def set_servo(self, degrees):   
         self.servo.value = degrees  
+
     def map_value(self, x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 

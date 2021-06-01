@@ -77,7 +77,8 @@ class CarController:
             # Update power readings
             self.data.voltage = self.hw_interfacer.power_sensor.voltage
             self.data.current = self.hw_interfacer.power_sensor.current
-            self.data.power = self.hw_interfacer.power_sensor.power
+            if self.hw_interfacer.power_sensor:
+                self.data.power = self.hw_interfacer.power_sensor.power
 
             # Update distance
             self.data.distance = self.hw_interfacer.distance_sensor.distance

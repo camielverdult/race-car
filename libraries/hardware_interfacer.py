@@ -46,7 +46,10 @@ class HwInterfacer:
         print("Setting servo to start value {}".format(start_angle))
         self.servo.angle = start_angle
 
-        self.power_sensor = adafruit_ina260.INA260(busio.I2C(2, 3))
+        try:
+            self.power_sensor = adafruit_ina260.INA260(busio.I2C(2, 3))
+        except:
+            self.power_sensor = None
 
     def set_servo(self, degrees):   
         self.servo.value = degrees  

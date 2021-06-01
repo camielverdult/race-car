@@ -4,7 +4,7 @@ class HwInterfacer:
 
     def __init__(self, 
                 sonar_echo_pin, sonar_trig_pin, 
-                servo_pin, 
+                servo_pin
                 motor_pin, get_data_function
                 ):
         # https://gpiozero.readthedocs.io/en/stable/api_output.html#servo

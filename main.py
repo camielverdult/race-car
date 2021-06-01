@@ -24,7 +24,6 @@ class CarController:
             servo_pin=self.data.servo_pin,
             motor_pin=self.data.motor_pin,
 
-            servo_steer_range=self.data.steer_range,
             get_data_function=self.data.get
         )
 

@@ -21,10 +21,10 @@ class CarController:
         self.hw_interfacer = hardware_interfacer.HwInterfacer(
             sonar_echo_pin=self.data.sonar_echo,
             sonar_trig_pin=self.data.sonar_trigger,
-            servo_pin=self.data.servo,
-            motor_pin=self.data.motor,
+            servo_pin=self.data.servo_pin,
+            motor_pin=self.data.motor_pin,
 
-            servo_steer_range=self.data.servo_steer_range,
+            servo_steer_range=self.data.steer_range,
             get_data_function=self.data.get
         )
 

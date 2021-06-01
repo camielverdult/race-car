@@ -1,4 +1,4 @@
-import gpiozero, adafruit_ina260, board, asyncio, time
+import gpiozero, adafruit_ina260, busio, asyncio, time
 
 class HwInterfacer:
 
@@ -46,7 +46,7 @@ class HwInterfacer:
         print("Setting servo to start value {}".format(start_angle))
         self.servo.angle = start_angle
 
-        self.power_sensor = adafruit_ina260.INA260(board.I2C())
+        self.power_sensor = adafruit_ina260.INA260(busio.I2C(2, 3))
 
     def set_servo(self, degrees):   
         self.servo.value = degrees  

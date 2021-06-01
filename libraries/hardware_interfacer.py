@@ -41,7 +41,8 @@ class HwInterfacer:
         self.distance_sensor = gpiozero.DistanceSensor(sonar_echo_pin, sonar_trig_pin)
 
         # Set to default values
-        start_angle = ( self.data.steer_range[0] + self.data.steer_range[1] ) / 2
+        steer_range = self.get_data_function().steer_range
+        start_angle = ( steer_range[0] + steer_range[1] ) / 2
         print("Setting servo to start value {}".format(start_angle))
         self.servo.angle = start_angle
 

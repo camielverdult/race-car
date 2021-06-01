@@ -10,7 +10,7 @@ import time
 class CarController:
 
     def __init__(self):
-        self.web_interface = car_web_interface.WebInterface()
+        self.web_interface = car_web_interface.WebInterface(self.data.json)
 
         self.capture = self.get_capture()
 
@@ -57,7 +57,7 @@ class CarController:
             asyncio.ensure_future(self.value_updater())
 
             # Web interface
-            asyncio.ensure_future(self.web_interface.run(self.data.json))
+            asyncio.ensure_future(self.web_interface.run())
 
             # Hardware interface
             asyncio.ensure_future(self.hw_interfacer.drive(self.data.theta.get))

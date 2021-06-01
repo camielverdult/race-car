@@ -98,13 +98,13 @@
 
             var url = window.location.href.replace("http://", "").replace("/", "");
 
-            console.log(url);
-
             const ws = new WebSocket(`ws://${url}/ws`);
 
             ws.addEventListener('message', function (event) {
                 // Parse JSON and log
                 data = JSON.parse(event.data)
+
+                console.log(data);
 
                 // Update distance
                 document.getElementById("distance-measurement").innerText = data.distance;

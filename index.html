@@ -96,7 +96,11 @@
 
         function ready() {
 
-            const ws = new WebSocket('ws://localhost:8080/ws');
+            var url = window.location.href.replace("http://", "").replace("/", "");
+
+            console.log(url);
+
+            const ws = new WebSocket(`ws://${url}/ws`);
 
             ws.addEventListener('message', function (event) {
                 // Parse JSON and log

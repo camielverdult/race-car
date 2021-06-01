@@ -57,7 +57,7 @@ class CarController:
             asyncio.ensure_future(self.web_interface.run())
 
             # Hardware interface
-            asyncio.ensure_future(self.hw_interfacer.drive(self.data.theta.get))
+            asyncio.ensure_future(self.hw_interfacer.drive(self.data.get))
 
             # Run async stuff on new thread
             loop.run_forever()
@@ -73,9 +73,9 @@ class CarController:
             start = time.perf_counter()
 
             # Update power readings
-            self.data.voltage = self.hw_interfacer.power_sensor.voltage
-            self.data.current = self.hw_interfacer.power_sensor.current
             if self.hw_interfacer.power_sensor:
+                self.data.voltage = self.hw_interfacer.power_sensor.voltage
+                self.data.current = self.hw_interfacer.power_sensor.current
                 self.data.power = self.hw_interfacer.power_sensor.power
 
             # Update distance

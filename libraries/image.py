@@ -61,7 +61,9 @@ class LineFinder:
     async def process_frame(self):
         _, frame = self.capture.read()
 
-        if hough := await self.apply_hough_transform(frame):
+        hough = await self.apply_hough_transform(frame)
+
+        if hough:
             return hough
         else:
             return (0, [])

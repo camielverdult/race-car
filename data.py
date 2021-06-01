@@ -17,6 +17,9 @@ class theta:
             self.max = theta
         if theta < self.min:
             self.min = theta
+
+    def get(self):
+        return self.min, self.theta, self.max
     
 class data:
     def __init__(self):

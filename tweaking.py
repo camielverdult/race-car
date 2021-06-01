@@ -1,6 +1,6 @@
 # pins
-servo = 12 
-motor = 13
+servo = 13
+motor = 12
 sonar_echo = 18
 sonar_trigger = 18
 

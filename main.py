@@ -48,7 +48,7 @@ class CarController:
         print("Getting async loop...")
         loop = asyncio.get_event_loop()
         asyncio.set_event_loop(loop)
-        
+
         # Start coroutines
         try:
             asyncio.ensure_future(self.line_detector)
@@ -60,7 +60,7 @@ class CarController:
             asyncio.ensure_future(self.web_interface.run(self.data.json))
 
             # Hardware interface
-            asyncio.ensure_future(self.hw_interfacer.drive())
+            asyncio.ensure_future(self.hw_interfacer.drive(self.data.theta.get))
 
             # Run async stuff on new thread
             loop.run_forever()

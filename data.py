@@ -46,6 +46,7 @@ class data:
         self.sonar_echo = tweaking.sonar_echo
         self.sonar_trigger = tweaking.sonar_trigger
         self.steer_range = tweaking.servo_steer_range
+        self.steer_angle = (self.steer_range[0] + self.steer_range[1])/2
 
     def json(self):
         return {

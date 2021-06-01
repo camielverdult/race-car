@@ -18,14 +18,7 @@ class CarController:
 
         self.line_detector = image.LineFinder(self.capture)
 
-        self.hw_interfacer = hardware_interfacer.HwInterfacer(
-            sonar_echo_pin=self.data.sonar_echo,
-            sonar_trig_pin=self.data.sonar_trigger,
-            servo_pin=self.data.servo_pin,
-            motor_pin=self.data.motor_pin,
-
-            get_data_function=self.data.get
-        )
+        # self.hw_interfacer = hardware_interfacer.HwInterfacer( sonar_echo_pin=self.data.sonar_echo, sonar_trig_pin=self.data.sonar_trigger, servo_pin=self.data.servo_pin, motor_pin=self.data.motor_pin, get_data_function=self.data.get)
 
         self.fps = 10
 
@@ -57,7 +50,7 @@ class CarController:
             asyncio.ensure_future(self.web_interface.run())
 
             # Hardware interface
-            asyncio.ensure_future(self.hw_interfacer.drive(self.data.get))
+            # asyncio.ensure_future(self.hw_interfacer.drive(self.data.get))
 
             # Run async stuff on new thread
             loop.run_forever()
@@ -73,13 +66,13 @@ class CarController:
             start = time.perf_counter()
 
             # Update power readings
-            if self.hw_interfacer.power_sensor:
-                self.data.voltage = self.hw_interfacer.power_sensor.voltage
-                self.data.current = self.hw_interfacer.power_sensor.current
-                self.data.power = self.hw_interfacer.power_sensor.power
+            #if self.hw_interfacer.power_sensor:
+                #self.data.voltage = self.hw_interfacer.power_sensor.voltage
+                #self.data.current = self.hw_interfacer.power_sensor.current
+                # self.data.power = self.hw_interfacer.power_sensor.power
 
             # Update distance
-            self.data.distance = self.hw_interfacer.distance_sensor.distance
+            # self.data.distance = self.hw_interfacer.distance_sensor.distance
 
             # Compute new lines
             theta, lines = await self.line_detector.process_frame()

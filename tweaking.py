@@ -5,4 +5,4 @@ sonar_echo = 24
 sonar_trigger = 23
 
 # values
-servo_steer_range = [55, 65]
+servo_steer_range = [-45, 45]

@@ -50,8 +50,6 @@ class CarController:
 
         # Start coroutines
         try:
-            asyncio.ensure_future(self.line_detector)
-
             # Value updating
             asyncio.ensure_future(self.value_updater())
 

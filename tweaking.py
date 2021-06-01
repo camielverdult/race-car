@@ -1,8 +1,8 @@
 # pins
-servo = 13
-motor = 12
-sonar_echo = 18
-sonar_trigger = 19
+servo = 12
+motor = 13
+sonar_echo = 24
+sonar_trigger = 23
 
 # values
 servo_steer_range = [55, 65]

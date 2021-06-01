@@ -1,3 +1,5 @@
+import tweaking
+
 class resolution:
     def __init__(self, x = 0, y = 0):
         self.x: int = x
@@ -36,6 +38,15 @@ class data:
         self.current: int = 0
         self.power: int = 0
 
+        self.min_steer = 55
+        self.max_steer = 65
+
+        self.servo_pin = tweaking.servo
+        self.motor_pin = tweaking.motor
+        self.sonar_echo = tweaking.sonar_echo
+        self.sonar_trigger = tweaking.sonar_trigger
+        self.steer_range = tweaking.servo_steer_range
+
     def json(self):
         return {
             # Camera/sensor stuff
@@ -53,3 +64,6 @@ class data:
             "current" : self.current,
             "power" : self.power
         }
+
+    def get(self):
+        return self

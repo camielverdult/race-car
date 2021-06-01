@@ -1,4 +1,4 @@
-import tweaking, data
+import data
 
 from libraries import car_web_interface, hardware_interfacer, image
 
@@ -19,13 +19,13 @@ class CarController:
         self.line_detector = image.LineFinder(self.capture)
 
         self.hw_interfacer = hardware_interfacer.HwInterfacer(
-            sonar_echo_pin=tweaking.sonar_echo,
-            sonar_trig_pin=tweaking.sonar_trigger,
-            servo_pin=tweaking.servo,
-            motor_pin=tweaking.motor,
+            sonar_echo_pin=self.data.sonar_echo,
+            sonar_trig_pin=self.data.sonar_trigger,
+            servo_pin=self.data.servo,
+            motor_pin=self.data.motor,
 
-            servo_steer_range=tweaking.servo_steer_range,
-            motor_speed_range=tweaking.motor_speed_range
+            servo_steer_range=self.data.servo_steer_range,
+            get_data_function=self.data.get
         )
 
         self.fps = 10

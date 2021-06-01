@@ -1,11 +1,11 @@
-import gpiozero, adafruit_ina260, adafruit_bus_device, board
+import gpiozero, adafruit_ina260, board, asyncio, time
 
 class HwInterfacer:
 
     def __init__(self, 
                 sonar_echo_pin, sonar_trig_pin, 
-                servo_pin, servo_steer_range, 
-                motor_pin, motor_speed_range
+                servo_pin, 
+                motor_pin, get_data_function
                 ):
         # https://gpiozero.readthedocs.io/en/stable/api_output.html#servo
 
@@ -16,11 +16,9 @@ class HwInterfacer:
         # Connect the final cable typically colored white or orange) to the GPIO pin 
         # you wish to use for controlling the servo.
 
+        self.get_data_function = get_data_function
+
         self.servo = gpiozero.AngularServo(servo_pin)
-        self.servo_steer_range = servo_steer_range
-        self.servo_start_angle = (self.servo_steer_range[1] + self.servo_steer_range[0]) / 2
-        
-        self.servo.angle = self.servo_start_angle
 
         # https://gpiozero.readthedocs.io/en/stable/api_output.html#motor   
 
@@ -29,8 +27,7 @@ class HwInterfacer:
         # Connect the outputs of the controller board to the two terminals of the motor
         # Connect the inputs of the controller board to two GPIO pins.
 
-        self.motor = gpiozero.Motor(motor_pin)
-        self.motor_speed_range = motor_speed_range
+        self.motor = gpiozero.PWMOutputDevice(motor_pin, active_high=False, frequency=50)
 
         # https://gpiozero.readthedocs.io/en/stable/api_input.html#distancesensor-hc-sr04
 
@@ -55,25 +52,28 @@ class HwInterfacer:
     def map_value(self, x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-    async def drive(self, get_theta_function, initial_speed = 0):
-        theta_min, theta, theta_max = get_theta_function()
+    async def drive(self, get_data_function):
+        while asyncio.get_event_loop().is_running():
+            start = time.perf_counter()
 
-        # Theta:
-        # 0 means straight
-        # -x means left
-        # +x means right
+            data = get_data_function()
 
-        # Laat de motor sturen op basis van de hoek die we krijgen
-        # De hoek die moet natuurlijk tussen de min en max stuur hoek liggen
-        # Dus we gebruiken deze als out_min en out_max waardes
-        angle = self.map_value(theta, theta_min, theta_max, self.servo_steer_range[0], self.servo_steer_range[1])
+            # Theta:
+            # 0 means straight
+            # -x means left
+            # +x means right
 
-        # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
+            # Laat de motor sturen op basis van de hoek die we krijgen
+            # De hoek die moet natuurlijk tussen de min en max stuur hoek liggen
+            # Dus we gebruiken deze als out_min en out_max waardes
+            angle = self.map_value(data.theta.theta, data.theta_min, data.theta_max, data.min_steer, data.max_steer)
 
-        # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
-        # en de min en max waarde van de motor
-        speed = self.map_value(angle, self.servo_steer_range[0], self.servo_steer_range[1], self.motor_speed_range[0], self.motor_speed_range[1])
+            # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
 
-        self.servo.angle = angle
+            # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
+            # en de min en max waarde van de motor
+            self.servo.angle = angle
 
-        self.motor.value = speed
+            self.motor.value = 0
+
+            await asyncio.sleep((1.0 - (time.perf_counter() - start)/5))

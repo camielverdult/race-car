@@ -41,8 +41,9 @@ class HwInterfacer:
         self.distance_sensor = gpiozero.DistanceSensor(sonar_echo_pin, sonar_trig_pin)
 
         # Set to default values
-        print("Setting servo to start value {}".format(self.servo_start_angle))
-        self.servo.angle = self.servo_start_angle
+        start_angle = ( self.data.steer_range[0] + self.data.steer_range[1] ) / 2
+        print("Setting servo to start value {}".format(start_angle))
+        self.servo.angle = start_angle
 
         self.power_sensor = adafruit_ina260.INA260(board.I2C())
 

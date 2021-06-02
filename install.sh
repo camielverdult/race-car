@@ -7,8 +7,11 @@ cd /home/pi
 wget -O opencv.zip https://github.com/opencv/opencv/archive/refs/tags/4.5.2.zip
 wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/refs/tags/4.5.2.zip
 
-unzip -o opencv.zip -d opencv
-unzip -o opencv_contrib.zip -d opencv_contrib
+unzip -o opencv.zip
+# opencv-4.5.2 
+
+unzip -o opencv_contrib.zip
+# opencv_contrib-4.5.2
 
 echo "CONF_SWAPSIZE=2048" > /etc/dphys-swapfile
 
@@ -17,12 +20,12 @@ echo "CONF_SWAPSIZE=2048" > /etc/dphys-swapfile
 
 python3 -m pip install numpy
 
-cd /home/pi/opencv
+cd /home/pi/opencv-4.5.2 
 mkdir build
 cd build
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
-    -D OPENCV_EXTRA_MODULES_PATH=/home/pi/opencv_contrib/modules \
+    -D OPENCV_EXTRA_MODULES_PATH=/home/pi/opencv_contrib-4.5.2/modules \
     -D ENABLE_NEON=ON \
     -D ENABLE_VFPV3=ON \
     -D BUILD_TESTS=OFF \

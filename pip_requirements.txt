@@ -3,7 +3,4 @@ numpy
 asyncio
 RPi.GPIO
 gpiozero
-adafruit-blinka
-adafruit-platformdetect
-adafruit-circuitpython-ina260
 opencv-contrib-python==4.5.1.48

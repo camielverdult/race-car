@@ -3,7 +3,7 @@
 # This scripts install all the prerequisites for the RaceX car to run 
 apt install build-essential cmake pkg-config libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libfontconfig1-dev libcairo2-dev libgdk-pixbuf2.0-dev libpango1.0-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran python3-dev -y
 
-cd ~
+cd /home/pi
 wget -O opencv.zip https://github.com/opencv/opencv/archive/refs/tags/4.5.2.zip
 wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/refs/tags/4.5.2.zip
 

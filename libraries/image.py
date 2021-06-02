@@ -3,8 +3,9 @@ import cv2, math
 
 class LineFinder:
 
-    def __init__(self, capture):
+    def __init__(self, capture, data_get_function):
         self.capture = capture
+        self.get_data = data_get_function
 
     async def get_hough_mask(self, shape, edges, ignore_mask_color=255):
         # Next we'll create a masked edges image using cv2.fillPoly()
@@ -33,18 +34,13 @@ class LineFinder:
         edges = cv2.Canny(blur_gray, low_threshold, high_threshold)
         
         masked_edges = await self.get_hough_mask(image.shape, edges)
-        
-        # Hough transform parameters
-        rho = 2                 # distance resolution in pixels of the Hough grid
-        theta = np.pi/180       # angular resolution in radians of the Hough grid
-        threshold = 15          # minimum number of votes (intersections in Hough grid cell)
-        min_line_length = 200   # minimum number of pixels making up a line
-        max_line_gap = 30       # maximum gap in pixels between connectable line segments
+
+        data = self.get_data()
 
         # Run Hough on edge detected image
         # Output "lines" is an array containing endpoints of detected line segments
-        lines = cv2.HoughLinesP(masked_edges, rho, theta, threshold, np.array([]),
-                                    min_line_length, max_line_gap)
+        lines = cv2.HoughLinesP(masked_edges, data.tweaking.rho, data.tweaking.theta, data.tweaking.threshold, np.array([]),
+                                    data.tweaking.min_line_length, data.tweaking.max_line_gap)
                                     
         theta = 0
         

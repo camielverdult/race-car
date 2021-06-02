@@ -25,6 +25,8 @@ class theta:
     
 class data:
     def __init__(self):
+        self.tweaking = tweaking
+
         # Camera/sensor stuff
         self.lines: list = []
         self.theta: theta = theta()
@@ -38,14 +40,14 @@ class data:
         self.current: int = 0
         self.power: int = 0
 
-        self.min_steer = 55
-        self.max_steer = 65
+        self.left = tweaking.left
+        self.right = tweaking.right
 
-        self.servo_pin = tweaking.servo
-        self.motor_pin = tweaking.motor
-        self.sonar_echo = tweaking.sonar_echo
-        self.sonar_trigger = tweaking.sonar_trigger
-        self.steer_range = tweaking.servo_steer_range
+        self.servo_pin = self.tweaking.servo
+        self.motor_pin = self.tweaking.motor
+        self.sonar_echo = self.tweaking.sonar_echo
+        self.sonar_trigger = self.tweaking.sonar_trigger
+        self.steer_range = self.tweaking.servo_steer_range
         self.steer_angle = (self.steer_range[0] + self.steer_range[1])/2
 
     def json(self):

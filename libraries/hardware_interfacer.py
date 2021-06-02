@@ -1,11 +1,12 @@
-import gpiozero, adafruit_ina260, busio, asyncio, time
+import gpiozero, adafruit_ina260, busio, asyncio, time, tweaking
 
 class HwInterfacer:
 
     def __init__(self, 
-                sonar_echo_pin, sonar_trig_pin, 
-                servo_pin,
-                motor_pin, get_data_function
+                get_data_function,
+                sonar_echo_pin: int = tweaking.sonar_echo, 
+                sonar_trig_pin: int = tweaking.sonar_trigger, 
+                servo_pin: int = tweaking.servo, 
                 ):
         # https://gpiozero.readthedocs.io/en/stable/api_output.html#servo
 
@@ -27,7 +28,7 @@ class HwInterfacer:
         # Connect the outputs of the controller board to the two terminals of the motor
         # Connect the inputs of the controller board to two GPIO pins.
 
-        self.motor = gpiozero.PWMOutputDevice(motor_pin, active_high=False, frequency=50)
+        self.motor = MotorShield()
 
         # https://gpiozero.readthedocs.io/en/stable/api_input.html#distancesensor-hc-sr04
 
@@ -38,18 +39,49 @@ class HwInterfacer:
         # Connect the free ends of both resistors to another GPIO pin. This forms the required voltage divider.
         # Finally, connect the VCC pin of the sensor to a 5V pin on the Pi.
 
-        self.distance_sensor = gpiozero.DistanceSensor(sonar_echo_pin, sonar_trig_pin)
+        self.distance_sensor = gpiozero.DistanceSensor(sonar_echo_pin, sonar_trig_pin, threshold_distance=tweaking.sonar_threshold_distance)
+        self.distance_sensor.when_activated = self.avoid_object
+        self.in_range = False
 
-        # Set to default values
-        steer_range = self.get_data_function().steer_range
-        start_angle = ( steer_range[0] + steer_range[1] ) / 2
-        print("Setting servo to start value {}".format(start_angle))
-        self.servo.angle = start_angle
+        # Set servo to middle
+        print("Setting servo to start value {}".format(tweaking.servo_middle))
+        self.servo.angle = tweaking.servo_middle
 
         try:
-            self.power_sensor = adafruit_ina260.INA260(busio.I2C(2, 3))
+            self.power_sensor = adafruit_ina260.INA260(busio.I2C(tweaking.scl, tweaking.sda))
         except:
             self.power_sensor = None
+
+    # This function is called when an object is close to us
+    def avoid_object(self):
+        self.in_range = True
+
+        # Brake, steer straight, and back up for a second
+        self.motor.brake()
+        self.servo.value = tweaking.servo_middle
+        self.motor.drive_backwards(tweaking.avoiding_drive_speed)
+        time.sleep(tweaking.avoiding_backwards_time)
+
+        # brake, steer right and drive forwards for 1.5 seconds
+        self.motor.brake()
+        self.servo.value = tweaking.servo_steer_range[1]
+        self.motor.drive_forwards(tweaking.avoiding_drive_speed)
+        time.sleep(tweaking.avoiding_forwards_time)
+
+        # Steer straight
+        self.servo.value = tweaking.servo_middle
+        time.sleep(tweaking.avoiding_straight_time)
+
+        # Steer left towards the line
+        self.servo.value = tweaking.servo_steer_range[0]
+        time.sleep(tweaking.avoiding_steer_time)
+
+        # Steer right to get back on the line
+        self.servo.value = tweaking.servo_steer_range[1]
+        time.sleep(tweaking.avoiding_steer_time)
+
+        # Let line following take over
+        self.in_range = False
 
     def set_servo(self, degrees):   
         self.servo.value = degrees  
@@ -59,26 +91,97 @@ class HwInterfacer:
 
     async def drive(self, get_data_function):
         while asyncio.get_event_loop().is_running():
-            start = time.perf_counter()
 
-            data = get_data_function()
+            # Only drive while not avoiding obstacle
+            if not self.in_range:
+                start = time.perf_counter()
 
-            # Theta:
-            # 0 means straight
-            # -x means left
-            # +x means right
+                data = get_data_function()
 
-            # Laat de motor sturen op basis van de hoek die we krijgen
-            # De hoek die moet natuurlijk tussen de min en max stuur hoek liggen
-            # Dus we gebruiken deze als out_min en out_max waardes
-            angle = self.map_value(data.theta.theta, data.theta_min, data.theta_max, data.min_steer, data.max_steer)
+                # Theta:
+                # 0 means straight
+                # -x means left
+                # +x means right
 
-            # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
+                # Laat de motor sturen op basis van de hoek die we krijgen
+                # De hoek die moet natuurlijk tussen de min en max stuur hoek liggen
+                # Dus we gebruiken deze als out_min en out_max waardes
+                angle = self.map_value(data.theta.theta, data.theta_min, data.theta_max, tweaking.servo_right, tweaking.servo_right)
 
-            # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
-            # en de min en max waarde van de motor
-            self.servo.angle = angle
+                # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
 
-            self.motor.value = 0
+                # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
+                # en de min en max waarde van de motor
+                self.servo.angle = angle
 
-            await asyncio.sleep((1.0 - (time.perf_counter() - start)/5))
+                self.motor.value = 0
+
+                await asyncio.sleep((1.0 - (time.perf_counter() - start)/5))
+
+class MotorShield:
+
+    # This is the pinout on the shield for both motor drivers
+    # const int inAPin[2] = {7, 4};
+    # const int pwmPin[2] = {5, 6};
+    # const int enPin[2] = {0, 1};
+    # const int csPin[2] = {2, 3};
+    # const int statPin = 13;
+
+    # https://github.com/sparkfun/Monster_Moto_Shield/blob/0cc320981caf554b5b359a62a0d8ff98512941fe/Firmware/MonsterMoto_Shield_Example_Sketch/MonsterMoto_Shield_Example_Sketch.ino#L122
+    def __init__(
+        self, 
+        input_pins: int = tweaking.input_pin, # These two pins control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
+        pwm_pin: int = tweaking.pwm_pin,
+        enable_pins: int = tweaking.enable_pin,
+    ):
+        # these values are either 0 or 1
+        self.m_input_1 = gpiozero.DigitalOutputDevice(input_pins[0])
+        self.m_input_2 = gpiozero.DigitalOutputDevice(input_pins[1])
+
+        self.m_enable_1 = gpiozero.DigitalOutputDevice(enable_pins[0])
+        self.m_enable_2 = gpiozero.DigitalOutputDevice(enable_pins[1])
+
+        # pwm value is between 0 and 1
+        self.m_pwm = gpiozero.PWMOutputDevice(pwm_pin)
+
+        self.motor_off()
+
+    # https://github.com/sparkfun/Monster_Moto_Shield/blob/0cc320981caf554b5b359a62a0d8ff98512941fe/Firmware/MonsterMoto_Shield_Example_Sketch/MonsterMoto_Shield_Example_Sketch.ino#L141
+    def motor_off(self):
+        self.m_input_1.value = 0
+        self.m_input_2.value = 0
+
+        self.m_pwm.value = 0
+
+    def motor_go(self, mode: int, speed: float):
+        #define BRAKEVCC 0: BRAKEVCC (0): Brake to VCC
+        #define CW  1: CW (1): Turn Clockwise
+        #define CCW 2: CCW (2): Turn Counter-Clockwise
+        #define BRAKEGND 3: BRAKEGND (3): Brake to GND
+
+        #define MOTOR_A 0
+        #define MOTOR_B 1
+
+        if mode == 0:
+            self.m_input_1.value = 1
+            self.m_input_2.value = 1
+        elif mode == 1:
+            self.m_input_1.value = 1
+            self.m_input_2.value = 0
+        elif mode == 2:
+            self.m_input_1.value = 0
+            self.m_input_2.value = 1
+        elif mode == 3:
+            self.m_input_1.value = 0
+            self.m_input_2.value = 0
+
+        self.m_pwm.value = speed
+
+    def drive_forwards(self, speed: float):
+        self.motor_go(1, speed)
+
+    def drive_backwards(self, speed: float):
+        self.motor_go(2, speed)
+
+    def brake(self):
+        self.motor_go(3, 0)

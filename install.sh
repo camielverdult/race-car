@@ -7,8 +7,8 @@ cd /home/pi
 wget -O opencv.zip https://github.com/opencv/opencv/archive/refs/tags/4.5.2.zip
 wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/refs/tags/4.5.2.zip
 
-unzip opencv.zip -d opencv
-unzip opencv_contrib.zip -d opencv_contrib
+unzip opencv.zip -d opencv -o
+unzip opencv_contrib.zip -d opencv_contrib -o
 
 echo "CONF_SWAPSIZE=2048" > /etc/dphys-swapfile
 

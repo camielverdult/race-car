@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # This scripts install all the prerequisites for the RaceX car to run 
-apt install build-essential cmake pkg-config libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libfontconfig1-dev libcairo2-dev libgdk-pixbuf2.0-dev libpango1.0-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran python3-dev -y
+apt install build-essential cmake pkg-config libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libfontconfig1-dev libcairo2-dev libgdk-pixbuf2.0-dev libpango1.0-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran python3-dev python3-pip -y
 
 cd /home/pi
 wget -O opencv.zip https://github.com/opencv/opencv/archive/refs/tags/4.5.2.zip
@@ -45,4 +45,4 @@ echo "CONF_SWAPSIZE=100" > /etc/dphys-swapfile
 /etc/init.d/dphys-swapfile stop
 /etc/init.d/dphys-swapfile start
 
-python3 -m pip -r pip_requirements.txt
+python3 -m pip install -r pip_requirements.txt

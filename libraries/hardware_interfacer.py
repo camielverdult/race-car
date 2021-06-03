@@ -1,4 +1,4 @@
-import gpiozero, adafruit_ina260, busio, asyncio, time, tweaking
+import gpiozero, asyncio, time, tweaking, # adafruit_ina260, busio
 
 class HwInterfacer:
 
@@ -64,7 +64,7 @@ class HwInterfacer:
 
         # brake, steer right and drive forwards for 1.5 seconds
         self.motor.brake()
-        self.servo.value = tweaking.servo_steer_range[1]
+        self.servo.value = tweaking.servo_right
         self.motor.drive_forwards(tweaking.avoiding_drive_speed)
         time.sleep(tweaking.avoiding_forwards_time)
 
@@ -73,11 +73,11 @@ class HwInterfacer:
         time.sleep(tweaking.avoiding_straight_time)
 
         # Steer left towards the line
-        self.servo.value = tweaking.servo_steer_range[0]
+        self.servo.value = tweaking.servo_left
         time.sleep(tweaking.avoiding_steer_time)
 
         # Steer right to get back on the line
-        self.servo.value = tweaking.servo_steer_range[1]
+        self.servo.value = tweaking.servo_right
         time.sleep(tweaking.avoiding_steer_time)
 
         # Let line following take over

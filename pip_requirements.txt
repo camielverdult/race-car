@@ -3,3 +3,4 @@ numpy
 asyncio
 RPi.GPIO
 gpiozero
+adafruit_ina260

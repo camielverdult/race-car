@@ -40,8 +40,8 @@ class data:
         self.current: int = 0
         self.power: int = 0
 
-        self.left = tweaking.left
-        self.right = tweaking.right
+        self.servo_left = tweaking.servo_left
+        self.servo_right = tweaking.servo_leftright
 
         self.servo_pin = self.tweaking.servo
         self.motor_pin = self.tweaking.motor

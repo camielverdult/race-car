@@ -21,7 +21,7 @@ avoiding_straight_time = 0.5
 avoiding_drive_speed = 0.2
 
 # motor shield pins
-input_pin = 29   # This pin control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
+input_pins = [29, 35]  # This pin control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
 pwm_pin = 27     # Gates of low side FETs are modulated by the PWM signal during their ON phase allowing speed control of the motor.
 enable_pin = 31  # When externally pulled low, they disable half-bridge A or B
 

@@ -130,16 +130,15 @@ class MotorShield:
     # https://github.com/sparkfun/Monster_Moto_Shield/blob/0cc320981caf554b5b359a62a0d8ff98512941fe/Firmware/MonsterMoto_Shield_Example_Sketch/MonsterMoto_Shield_Example_Sketch.ino#L122
     def __init__(
         self, 
-        input_pins: int = tweaking.input_pin, # These two pins control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
+        input_pins: list = tweaking.input_pin, # These two pins control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
         pwm_pin: int = tweaking.pwm_pin,
-        enable_pins: int = tweaking.enable_pin,
+        enable_pin: int = tweaking.enable_pin,
     ):
         # these values are either 0 or 1
         self.m_input_1 = gpiozero.DigitalOutputDevice(input_pins[0])
         self.m_input_2 = gpiozero.DigitalOutputDevice(input_pins[1])
 
-        self.m_enable_1 = gpiozero.DigitalOutputDevice(enable_pins[0])
-        self.m_enable_2 = gpiozero.DigitalOutputDevice(enable_pins[1])
+        self.m_enable_1 = gpiozero.DigitalOutputDevice(enable_pin)
 
         # pwm value is between 0 and 1
         self.m_pwm = gpiozero.PWMOutputDevice(pwm_pin)

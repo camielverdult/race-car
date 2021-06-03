@@ -130,7 +130,7 @@ class MotorShield:
     # https://github.com/sparkfun/Monster_Moto_Shield/blob/0cc320981caf554b5b359a62a0d8ff98512941fe/Firmware/MonsterMoto_Shield_Example_Sketch/MonsterMoto_Shield_Example_Sketch.ino#L122
     def __init__(
         self, 
-        input_pins: list = tweaking.input_pin, # These two pins control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
+        input_pins: list = tweaking.input_pins, # These two pins control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
         pwm_pin: int = tweaking.pwm_pin,
         enable_pin: int = tweaking.enable_pin,
     ):

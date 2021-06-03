@@ -38,12 +38,11 @@ make -j4
 make install
 ldconfig
 
+apt autoremove
+
 echo "CONF_SWAPSIZE=100" > /etc/dphys-swapfile
 
 /etc/init.d/dphys-swapfile stop
 /etc/init.d/dphys-swapfile start
-
-mkdir /usr/local/lib/python3.7/site-packages/cv2/python-3.7
-cp cv2.cpython-*.so c/usr/local/lib/python3.7/site-packages/cv2/python-3.7/cv2.so
 
 python3 -m pip -r pip_requirements.txt

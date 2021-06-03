@@ -40,16 +40,6 @@ class data:
         self.current: int = 0
         self.power: int = 0
 
-        self.servo_left = tweaking.servo_left
-        self.servo_right = tweaking.servo_right
-
-        self.servo_pin = self.tweaking.servo
-        self.motor_pin = self.tweaking.motor
-        self.sonar_echo = self.tweaking.sonar_echo
-        self.sonar_trigger = self.tweaking.sonar_trigger
-        self.steer_range = self.tweaking.servo_steer_range
-        self.steer_angle = (self.steer_range[0] + self.steer_range[1])/2
-
     def json(self):
         return {
             # Camera/sensor stuff

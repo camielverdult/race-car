@@ -4,9 +4,9 @@ class HwInterfacer:
 
     def __init__(self, 
                 get_data_function,
-                sonar_echo_pin: int = tweaking.sonar_echo, 
-                sonar_trig_pin: int = tweaking.sonar_trigger, 
-                servo_pin: int = tweaking.servo, 
+                sonar_echo_pin: int = tweaking.sonar_echo_pin, 
+                sonar_trig_pin: int = tweaking.sonar_trigger_pin, 
+                servo_pin: int = tweaking.servo_pin, 
                 ):
         # https://gpiozero.readthedocs.io/en/stable/api_output.html#servo
 
@@ -47,10 +47,10 @@ class HwInterfacer:
         print("Setting servo to start value {}".format(tweaking.servo_middle))
         self.servo.angle = tweaking.servo_middle
 
-        try:
-            self.power_sensor = adafruit_ina260.INA260(busio.I2C(tweaking.scl, tweaking.sda))
-        except:
-            self.power_sensor = None
+        # try:
+        #     self.power_sensor = adafruit_ina260.INA260(busio.I2C(tweaking.scl, tweaking.sda))
+        # except:
+        self.power_sensor = None
 
     # This function is called when an object is close to us
     def avoid_object(self):

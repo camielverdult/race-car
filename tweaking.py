@@ -21,13 +21,13 @@ avoiding_straight_time = 0.5
 avoiding_drive_speed = 0.2
 
 # motor shield pins
-input_pins = [22, 25]  # This pin control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
-pwm_pin = 21     # Gates of low side FETs are modulated by the PWM signal during their ON phase allowing speed control of the motor.
-enable_pin = 23  # When externally pulled low, they disable half-bridge A or B
+input_pins = [6, 26]  # This pin control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
+pwm_pin = 5     # Gates of low side FETs are modulated by the PWM signal during their ON phase allowing speed control of the motor.
+enable_pin = 13  # When externally pulled low, they disable half-bridge A or B
 
 # I2c pins
-sda = 30
-scl = 31
+sda = 2
+scl = 3
 
 # hough transform stuff
 rho = 2                 # rho : The resolution of the parameter r in pixels. We use 1 pixel.

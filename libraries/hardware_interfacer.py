@@ -158,6 +158,8 @@ class MotorShield:
         #define MOTOR_A 0
         #define MOTOR_B 1
 
+        self.m_enable_1.on()
+
         if mode == 0:
             self.m_input_1.on()
             self.m_input_2.on()

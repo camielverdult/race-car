@@ -147,10 +147,7 @@ class MotorShield:
 
     # https://github.com/sparkfun/Monster_Moto_Shield/blob/0cc320981caf554b5b359a62a0d8ff98512941fe/Firmware/MonsterMoto_Shield_Example_Sketch/MonsterMoto_Shield_Example_Sketch.ino#L141
     def motor_off(self):
-        self.m_input_1.value = 0
-        self.m_input_2.value = 0
-
-        self.m_pwm.value = 0
+        self.motor_go(3, 0.0)
 
     def motor_go(self, mode: int, speed: float):
         #define BRAKEVCC 0: BRAKEVCC (0): Brake to VCC
@@ -162,19 +159,19 @@ class MotorShield:
         #define MOTOR_B 1
 
         if mode == 0:
-            self.m_input_1.value = 1
-            self.m_input_2.value = 1
+            self.m_input_1.on()
+            self.m_input_2.on()
         elif mode == 1:
-            self.m_input_1.value = 1
-            self.m_input_2.value = 0
+            self.m_input_1.on()
+            self.m_input_2.off()
         elif mode == 2:
-            self.m_input_1.value = 0
-            self.m_input_2.value = 1
+            self.m_input_1.off()
+            self.m_input_2.on()
         elif mode == 3:
-            self.m_input_1.value = 0
-            self.m_input_2.value = 0
+            self.m_input_1.off()
+            self.m_input_2.off()
 
-        self.m_pwm.value = speed
+        self.m_pwm._write(speed)
 
     def drive_forwards(self, speed: float):
         self.motor_go(1, speed)

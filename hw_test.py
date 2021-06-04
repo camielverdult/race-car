@@ -4,9 +4,10 @@ import tweaking, gpiozero, time
 motor = MotorShield()
 servo = gpiozero.AngularServo(tweaking.servo_pin)
 
-servo.angle = tweaking.servo_middle
+servo.angle = tweaking.servo_left
 
-async for i in range(0, 100):
-    print(float(i) / 100)
+for i in range(0, 10):
+    print(float(i) / 10)
     motor.drive_forwards(float(i) / 100)
-    time.sleep(0.1)
+    servo.angle = 1.0 - servo.angle
+    time.sleep(1)

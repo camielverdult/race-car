@@ -20,7 +20,14 @@ avoiding_steer_time = 0.5
 avoiding_straight_time = 0.5
 avoiding_drive_speed = 0.2
 
-# motor shield pins
+# motor shield pins:
+# const int inAPin[2] = {7, 4};
+# const int pwmPin[2] = {5, 6};
+# const int enPin[2] = {0, 1};
+# const int csPin[2] = {2, 3};
+# const int statPin = 13;
+
+# pi -> shield pins:
 input_pins = [6, 26]  # This pin control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
 pwm_pin = 5     # Gates of low side FETs are modulated by the PWM signal during their ON phase allowing speed control of the motor.
 enable_pin = 13  # When externally pulled low, they disable half-bridge A or B

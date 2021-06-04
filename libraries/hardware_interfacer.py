@@ -135,10 +135,10 @@ class MotorShield:
         enable_pin: int = tweaking.enable_pin,
     ):
         # these values are either 0 or 1
-        self.m_input_1 = gpiozero.DigitalOutputDevice(input_pins[0])
-        self.m_input_2 = gpiozero.DigitalOutputDevice(input_pins[1])
+        self.m_input_1 = gpiozero.DigitalOutputDevice(input_pins[0], active_high=False)
+        self.m_input_2 = gpiozero.DigitalOutputDevice(input_pins[1], active_high=False)
 
-        self.m_enable_1 = gpiozero.DigitalOutputDevice(enable_pin)
+        self.m_enable_1 = gpiozero.DigitalOutputDevice(enable_pin, active_high=False)
 
         # pwm value is between 0 and 1
         self.m_pwm = gpiozero.PWMOutputDevice(pwm_pin)

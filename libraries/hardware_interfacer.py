@@ -171,7 +171,7 @@ class MotorShield:
             self.m_input_1.off()
             self.m_input_2.off()
 
-        self.m_pwm._write(speed)
+        self.m_pwm.value = speed
 
     def drive_forwards(self, speed: float):
         self.motor_go(1, speed)

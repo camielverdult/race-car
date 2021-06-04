@@ -1,7 +1,7 @@
 import numpy as np
 
 # pins
-servo_pin = 29
+servo_pin = 21
 sonar_echo_pin = 24
 sonar_trigger_pin = 23
 

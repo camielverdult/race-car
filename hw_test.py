@@ -6,8 +6,9 @@ servo = gpiozero.AngularServo(tweaking.servo_pin)
 
 servo.angle = tweaking.servo_left
 
-for i in range(0, 10):
-    print(float(i) / 10)
-    motor.drive_forwards(float(i) / 100)
-    servo.angle = 1.0 - servo.angle
-    time.sleep(1)
+while True:
+    for i in range(0, 10):
+        print(float(i) / 10)
+        motor.drive_forwards(float(i) / 100)
+        servo.angle = 1.0 - servo.angle
+        time.sleep(1)

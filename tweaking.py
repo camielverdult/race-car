@@ -1,16 +1,16 @@
 import numpy as np
 
 # pins
-servo_pin = 21
-sonar_echo_pin = 24
+servo_pin = 7
+sonar_echo_pin = 1
 sonar_trigger_pin = 23
 
 # fine-tuning values
-servo_left = 29
-servo_right= -35
+servo_left = 23
+servo_right= -55
 servo_middle = (servo_left + servo_right) / 2
 
-motor_speed_range = [0, 0.3]
+motor_speed_range = [0.02, 0.05]
 
 sonar_threshold_distance = 0.4
 

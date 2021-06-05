@@ -8,9 +8,11 @@ sonar_trigger_pin = 23
 # fine-tuning values
 servo_left = 23
 servo_right= -55
-servo_middle = (servo_left + servo_right) / 2
+servo_middle = (servo_left + servo_right) / 2 #-16
+nerf_angle = 10
 
 motor_speed_range = [0.02, 0.05]
+motor_max = 0.1
 
 sonar_threshold_distance = 0.4
 

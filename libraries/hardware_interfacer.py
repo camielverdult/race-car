@@ -2,12 +2,7 @@ import gpiozero, asyncio, time, tweaking #, adafruit_ina260, busio
 
 class HwInterfacer:
 
-    def __init__(self, 
-                get_data_function,
-                sonar_echo_pin: int = tweaking.sonar_echo_pin, 
-                sonar_trig_pin: int = tweaking.sonar_trigger_pin, 
-                servo_pin: int = tweaking.servo_pin, 
-                ):
+    def __init__(self, get_data_function):
         # https://gpiozero.readthedocs.io/en/stable/api_output.html#servo
 
         # Connect a power source (e.g. a battery pack or the 5V pin) to the power cable of the servo 
@@ -19,7 +14,7 @@ class HwInterfacer:
 
         self.get_data_function = get_data_function
 
-        self.servo = gpiozero.AngularServo(servo_pin)
+        self.servo = gpiozero.AngularServo(tweaking.servo_pin)
 
         # https://gpiozero.readthedocs.io/en/stable/api_output.html#motor   
 
@@ -39,7 +34,7 @@ class HwInterfacer:
         # Connect the free ends of both resistors to another GPIO pin. This forms the required voltage divider.
         # Finally, connect the VCC pin of the sensor to a 5V pin on the Pi.
 
-        self.distance_sensor = gpiozero.DistanceSensor(sonar_echo_pin, sonar_trig_pin, threshold_distance=tweaking.sonar_threshold_distance)
+        self.distance_sensor = gpiozero.DistanceSensor(echo=tweaking.sonar_echo_pin, trigger=tweaking.sonar_trigger_pin, threshold_distance=tweaking.sonar_threshold_distance)
         self.distance_sensor.when_activated = self.avoid_object
         self.in_range = False
 
@@ -106,15 +101,15 @@ class HwInterfacer:
                 # Laat de motor sturen op basis van de hoek die we krijgen
                 # De hoek die moet natuurlijk tussen de min en max stuur hoek liggen
                 # Dus we gebruiken deze als out_min en out_max waardes
-                angle = self.map_value(data.theta.theta, data.theta_min, data.theta_max, tweaking.servo_right, tweaking.servo_right)
+                self.servo.angle = self.map_value(data.theta.theta, data.theta_min, data.theta_max, tweaking.servo_right, tweaking.servo_right)
 
                 # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
 
                 # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
                 # en de min en max waarde van de motor
-                self.servo.angle = angle
-
-                self.motor.value = 0
+                if self.map_value(self.servo.angle, 0, tweaking.servo_right, tweaking.motor_speed_range[0], tweaking.motor_speed_range[1]):
+                    # Take turn as slow as possible
+                    self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
                 await asyncio.sleep((1.0 - (time.perf_counter() - start)/5))
 

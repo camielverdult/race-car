@@ -1,9 +1,9 @@
 import numpy as np
 
 # pins
-servo_pin = 7
-sonar_echo_pin = 1
-sonar_trigger_pin = 23
+servo_pin = 21
+sonar_echo_pin = 27
+sonar_trigger_pin = 22
 
 # fine-tuning values
 servo_left = 23

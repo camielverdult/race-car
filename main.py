@@ -72,7 +72,7 @@ class CarController:
                 self.data.power = self.hw_interfacer.power_sensor.power
 
             # Update distance
-            self.data.distance = self.hw_interfacer.distance_sensor.distance
+            self.data.distance = self.hw_interfacer.distance_sensor.distance * 100
 
             # Compute new lines
             theta, lines = await self.line_detector.process_frame()

@@ -89,7 +89,6 @@ class HwInterfacer:
 
             # Only drive while not avoiding obstacle
             if not self.in_range:
-                start = time.perf_counter()
 
                 data = get_data_function()
 
@@ -111,7 +110,7 @@ class HwInterfacer:
                     # Take turn as slow as possible
                     self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
-                await asyncio.sleep((1.0 - (time.perf_counter() - start)/5))
+                await asyncio.sleep(0.1)
 
 class MotorShield:
 

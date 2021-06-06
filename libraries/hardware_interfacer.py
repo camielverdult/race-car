@@ -170,9 +170,11 @@ class MotorShield:
         self.m_pwm.value = speed
 
     def drive_forwards(self, speed: float):
+        speed = min(speed, tweaking.motor_max)
         self.motor_go(1, speed)
 
     def drive_backwards(self, speed: float):
+        speed = min(speed, tweaking.motor_max)
         self.motor_go(2, speed)
 
     def brake(self):

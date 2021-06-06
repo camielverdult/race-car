@@ -20,7 +20,7 @@ avoiding_backwards_time = 0.5
 avoiding_forwards_time = 0.2
 avoiding_steer_time = 0.5
 avoiding_straight_time = 0.5
-avoiding_drive_speed = 0.2
+avoiding_drive_speed = 0.05
 
 # motor shield pins:
 # const int inAPin[2] = {7, 4};

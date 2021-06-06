@@ -1,5 +1,5 @@
 import numpy as np
-import cv2, math
+import cv2, math, time
 
 class LineFinder:
 
@@ -20,6 +20,8 @@ class LineFinder:
         return cv2.bitwise_and(edges, mask)
 
     async def apply_hough_transform(self, image):
+
+        start = time.perf_counter()
         
         #Convert to Grey Image
         grey_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -51,6 +53,8 @@ class LineFinder:
                     # cv2.line(image, (x1,y1), (x2,y2), (0,255,0), 2)
 
                     theta.append(math.atan2((y2-y1), (x2-x1)))
+
+            print("took {} seconds to run line detection".format(time.perf_counter() - start))
 
             return (theta, lines.tolist())
 

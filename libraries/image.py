@@ -42,15 +42,15 @@ class LineFinder:
         lines = cv2.HoughLinesP(masked_edges, data.tweaking.rho, data.tweaking.theta, data.tweaking.threshold, np.array([]),
                                     data.tweaking.min_line_length, data.tweaking.max_line_gap)
                                     
-        theta = 0
+        theta = []
         
         # Iterate over the output "lines" and draw lines on a blank image
         if lines is not None:
             for line in lines:
                 for x1, y1, x2, y2 in line:
-                    cv2.line(image, (x1,y1), (x2,y2), (0,255,0), 2)
+                    # cv2.line(image, (x1,y1), (x2,y2), (0,255,0), 2)
 
-                    theta = theta + math.atan2((y2-y1), (x2-x1))
+                    theta.append(math.atan2((y2-y1), (x2-x1)))
 
             return (theta, lines.tolist())
 

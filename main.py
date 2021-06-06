@@ -76,6 +76,7 @@ class CarController:
 
             # Compute new lines
             theta, lines = await self.line_detector.process_frame()
+            theta = max(theta)
 
             self.data.theta.update(theta)
             self.data.lines = lines

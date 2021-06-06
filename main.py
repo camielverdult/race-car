@@ -63,8 +63,6 @@ class CarController:
         print("Starting line scanner...")
         while asyncio.get_event_loop().is_running():
 
-            start = time.perf_counter()
-
             # Update power readings
             if self.hw_interfacer.power_sensor:
                 self.data.voltage = self.hw_interfacer.power_sensor.voltage
@@ -87,7 +85,7 @@ class CarController:
             self.data.resolution.y = self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
         
             # Sleep for the amount of time we need to achieve our FPS
-            await asyncio.sleep((1.0 - (time.perf_counter() - start)/self.fps))
+            await asyncio.sleep(1.0/self.fps)
 
         print("Stopping value updater...")
 

@@ -42,5 +42,5 @@ scl = 3
 rho = 2                 # rho : The resolution of the parameter r in pixels. We use 1 pixel.
 theta = np.pi/180       # theta: The resolution of the parameter θ in radians. We use 1 degree (CV_PI/180)
 threshold = 15          # threshold: The minimum number of intersections to "*detect*" a line
-min_line_length = 100   # minLineLength: The minimum number of points that can form a line. Lines with less than this number of points are disregarded.
-max_line_gap = 30       # maxLineGap: The maximum gap between two points to be considered in the same line.
+min_line_length = 50   # minLineLength: The minimum number of points that can form a line. Lines with less than this number of points are disregarded.
+max_line_gap = 10       # maxLineGap: The maximum gap between two points to be considered in the same line.

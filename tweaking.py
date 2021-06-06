@@ -16,8 +16,8 @@ motor_max = 0.1
 
 sonar_threshold_distance = 0.05
 
-avoiding_backwards_time = 0.5
-avoiding_forwards_time = 0.2
+avoiding_backwards_time = 1.5
+avoiding_forwards_time = 3.5
 avoiding_steer_time = 0.5
 avoiding_straight_time = 0.5
 avoiding_drive_speed = motor_speed_range[0]

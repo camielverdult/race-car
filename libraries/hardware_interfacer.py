@@ -49,6 +49,7 @@ class HwInterfacer:
 
     # This function is called when an object is close to us
     def avoid_object(self):
+        print("Avoiding object!")
         self.in_range = True
 
         # Brake, steer straight, and back up for a second

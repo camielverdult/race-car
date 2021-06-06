@@ -53,33 +53,33 @@ class HwInterfacer:
 
         # Brake, steer straight, and back up for a second
         self.motor.brake()
-        self.servo.value = tweaking.servo_middle
+        self.servo.angle = tweaking.servo_middle
         self.motor.drive_backwards(tweaking.avoiding_drive_speed)
         time.sleep(tweaking.avoiding_backwards_time)
 
         # brake, steer right and drive forwards for 1.5 seconds
         self.motor.brake()
-        self.servo.value = tweaking.servo_right
+        self.servo.angle = tweaking.servo_right
         self.motor.drive_forwards(tweaking.avoiding_drive_speed)
         time.sleep(tweaking.avoiding_forwards_time)
 
         # Steer straight
-        self.servo.value = tweaking.servo_middle
+        self.servo.angle = tweaking.servo_middle
         time.sleep(tweaking.avoiding_straight_time)
 
         # Steer left towards the line
-        self.servo.value = tweaking.servo_left
+        self.servo.angle = tweaking.servo_left
         time.sleep(tweaking.avoiding_steer_time)
 
         # Steer right to get back on the line
-        self.servo.value = tweaking.servo_right
+        self.servo.angle = tweaking.servo_right
         time.sleep(tweaking.avoiding_steer_time)
 
         # Let line following take over
         self.in_range = False
 
     def set_servo(self, degrees):   
-        self.servo.value = degrees  
+        self.servo.angle = degrees  
 
     def map_value(self, x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min

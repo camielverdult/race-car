@@ -75,6 +75,9 @@ class HwInterfacer:
         self.servo.angle = tweaking.servo_right
         time.sleep(tweaking.avoiding_steer_time)
 
+        self.motor.brake()
+        self.servo.angle = tweaking.servo_middle
+
         # Let line following take over
         self.in_range = False
 

@@ -14,13 +14,13 @@ nerf_angle = 10
 motor_speed_range = [0.02, 0.05]
 motor_max = 0.1
 
-sonar_threshold_distance = 0.4
+sonar_threshold_distance = 0.05
 
 avoiding_backwards_time = 0.5
 avoiding_forwards_time = 0.2
 avoiding_steer_time = 0.5
 avoiding_straight_time = 0.5
-avoiding_drive_speed = 0.05
+avoiding_drive_speed = motor_speed_range[0]
 
 # motor shield pins:
 # const int inAPin[2] = {7, 4};

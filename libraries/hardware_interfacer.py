@@ -118,6 +118,11 @@ class HwInterfacer:
                 else: 
                     self.servo.angle = tweaking.servo_left
 
+                if angle > 40 and angle < 90 or angle > 100 and angle < 0: 
+                    self.motor.drive_forwards(0.1)
+                else:
+                    self.motor.drive_forwards(tweaking.motor_speed_range[0])
+
                 continue
 
                 await asyncio.sleep(0.1)

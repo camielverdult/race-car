@@ -8,7 +8,7 @@ sonar_trigger_pin = 22
 
 # fine-tuning values
 servo_left = 23
-servo_right= -55
+servo_right= -50
 servo_middle = (servo_left + servo_right) / 2 #-16
 nerf_angle = 10
 

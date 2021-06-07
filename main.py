@@ -79,6 +79,8 @@ class CarController:
             #     theta = max(theta)
 
             theta, lines = await self.line_detector.new_hough()
+
+            print(lines)
  
             if len(theta) is 0:
                 self.data.theta.update(0)

@@ -143,13 +143,13 @@ class HwInterfacer:
                 print(cx)
 
                 if cx >= 120:
-                    self.servo.angle = tweaking.servo_right
+                    self.servo.angle = tweaking.servo_right / 2
                 
                 if cx < 120 and cx > 50:
                     self.servo.angle = tweaking.servo_middle
 
                 if cx <= 50:
-                    self.servo.angle = tweaking.servo_left
+                    self.servo.angle = tweaking.servo_left / 2
 
             await asyncio.sleep(0.1)
 

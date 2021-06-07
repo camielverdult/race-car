@@ -108,6 +108,7 @@ class HwInterfacer:
 
                 if not a_min and not angle and not a_max:
                     # values are not updated yet, return 
+                    print("no angle")
                     return
 
 

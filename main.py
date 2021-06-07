@@ -50,7 +50,7 @@ class CarController:
             # asyncio.ensure_future(self.web_interface.run())
 
             # Hardware interface
-            asyncio.ensure_future(self.hw_interfacer.drive(self.line_detector))
+            asyncio.ensure_future(self.hw_interfacer.drive(None))
 
             # Run async stuff on new thread
             loop.run_forever()

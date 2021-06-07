@@ -113,7 +113,9 @@ class HwInterfacer:
 
                 print("lines: {}, angle: {}".format(len(lines), angle))
 
-                self.servo.angle = self.map_value(angle, 0, 180, tweaking.servo_left, tweaking.servo_right)
+                angle = angle - 90
+
+                self.servo.angle = self.map_value(angle, -90, 90, tweaking.servo_left, tweaking.servo_right)
 
                 await asyncio.sleep(0.1)
 

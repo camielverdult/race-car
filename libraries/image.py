@@ -78,6 +78,9 @@ class LineFinder:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.bitwise_not(gray)
         edges = cv2.Canny(gray, 50, 150, apertureSize = 3)
+
+        cv2.imwrite('frame.jpg', frame)
+
         lines = cv2.HoughLines(edges, 1, np.pi/180, 200)
 
         line_coords = []

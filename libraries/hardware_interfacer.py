@@ -95,7 +95,7 @@ class HwInterfacer:
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
     async def drive(self, line_detector):
-        self.motor.drive_forwards(0.1)
+        self.motor.drive_forwards(0.035)
         angles = []
         while asyncio.get_event_loop().is_running():
 

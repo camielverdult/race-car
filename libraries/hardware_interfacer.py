@@ -111,11 +111,16 @@ class HwInterfacer:
                 else:
                     theta = 0
 
-                if theta > tweaking.theta_check:
-                    theta = abs(theta - tweaking.theta_modifier) * -1
-
                 angle = theta * (180/math.pi)
 
+                if angle > 0 and angle < 90:
+                    self.servo.angle = tweaking.servo_right
+                else: 
+                    self.servo.angle = tweaking.servo_left
+
+                continue
+
+                await asyncio.sleep(0.1)
 
                 if angle is 0:
                     angle = -1 * angles[-1]

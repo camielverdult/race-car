@@ -151,6 +151,9 @@ class HwInterfacer:
                 if cx <= 50:
                     self.servo.angle = tweaking.servo_left / 2
 
+            else:
+                self.servo.angle = tweaking.servo_right
+
 
             # # Only drive while not avoiding obstacle
             # if not self.in_range:

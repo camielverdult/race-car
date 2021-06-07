@@ -96,7 +96,13 @@ class HwInterfacer:
 
     async def drive(self, line_detector):
         self.motor.drive_forwards(0.05)
-        angles = []
+        time.sleep(4)
+        self.servo.value = tweaking.servo_right
+        time.sleep(2)
+        self.servo.value = tweaking.servo_middle
+
+        return
+
         while asyncio.get_event_loop().is_running():
 
             # Only drive while not avoiding obstacle

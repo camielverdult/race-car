@@ -151,7 +151,6 @@ class HwInterfacer:
                 if cx <= 50:
                     self.servo.angle = tweaking.servo_left / 2
 
-            await asyncio.sleep(0.1)
 
             # # Only drive while not avoiding obstacle
             # if not self.in_range:

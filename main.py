@@ -90,6 +90,7 @@ class CarController:
                     print("modifying line (> {})".format(tweaking.theta_check))
                     theta = abs(theta - tweaking.theta_modifier)
 
+
                 self.data.theta.update(theta)
 
             self.data.lines = lines

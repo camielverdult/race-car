@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 # pins
 servo_pin = 21
@@ -45,6 +46,5 @@ threshold = 15          # threshold: The minimum number of intersections to "*de
 min_line_length = 100   # minLineLength: The minimum number of points that can form a line. Lines with less than this number of points are disregarded.
 max_line_gap = 10       # maxLineGap: The maximum gap between two points to be considered in the same line.
 
-
-theta_check = 100
-theta_modifier = 180
+theta_check = 100/(180/math.pi) # 1,745329252
+theta_modifier = math.pi

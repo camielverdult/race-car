@@ -73,17 +73,11 @@ class LineFinder:
     async def new_hough(self):
 
         start = time.perf_counter()
-        
 
         _, frame = self.capture.read()
-        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        edges = cv2.Canny(frame, 180, 255, apertureSize = 3)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        edges = cv2.Canny(gray, 180, 255, apertureSize = 3)
         lines = cv2.HoughLines(edges, 1, np.pi/180, 200)
-
-        cv2.imwrite('frame.jpg', frame)
-        cv2.imwrite('edges.jpg', edges)
-        if lines is not None:
-            cv2.imwrite('lines.jpg', lines)
 
         line_coords = []
         thetas = []
@@ -106,6 +100,9 @@ class LineFinder:
             y2 = int(y0 - 1000*(a))
 
             line_coords.append([x1, y1, x2, y2])
+
+        cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
+        cv2.imwrite('houghlines3.jpg', frame)
 
         print("took {} seconds to run line detection".format(time.perf_counter() - start))
 

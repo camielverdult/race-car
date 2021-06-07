@@ -82,13 +82,13 @@ class LineFinder:
 
         cv2.imwrite('frame.jpg', frame)
         cv2.imwrite('edges.jpg', edges)
-        if len(lines) is not 0:
+        if lines is not None:
             cv2.imwrite('lines.jpg', lines)
 
         line_coords = []
         thetas = []
 
-        if len(lines) is 0:
+        if lines is None:
             print("No lines detected")
             return ([], [])
 

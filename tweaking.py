@@ -14,7 +14,7 @@ nerf_angle = 10
 steer_after_angle = 7
 steer_after_angle_two = 25
 
-servo_mapping_values = [50, -50]
+servo_mapping_values = [70, -70]
 
 motor_speed_range = [0.03, 0.05]
 motor_max = 0.1

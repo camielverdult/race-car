@@ -13,6 +13,9 @@ class theta:
 
     def update(self, theta: int):
 
+        if not theta:
+            theta = 0
+
         self.theta = theta
 
         if theta > self.max:

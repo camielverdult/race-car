@@ -49,4 +49,4 @@ min_line_length = 100   # minLineLength: The minimum number of points that can f
 max_line_gap = 10       # maxLineGap: The maximum gap between two points to be considered in the same line.
 
 theta_check = 100/(180/math.pi) # 1,745329252
-theta_modifier = math.pi
+theta_modifier = math.pi    

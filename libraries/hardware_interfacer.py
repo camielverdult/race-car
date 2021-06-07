@@ -123,7 +123,7 @@ class HwInterfacer:
                     print("kut hoek")
                     await asyncio.sleep(0.1)
 
-                elif abs(angle) > tweaking.steer_after_angle:
+                elif abs(angle) > tweaking.steer_after_angle and abs(angle) < tweaking.steer_after_angle_two:
 
                     
                     # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
@@ -138,6 +138,11 @@ class HwInterfacer:
                     # if self.map_value(self.servo.angle, 0, tweaking.servo_right, tweaking.motor_speed_range[0], tweaking.motor_speed_range[1]):
                     #     # Take turn as slow as possible
                     #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
+
+                else:
+                    self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right) * 1.5
+
+                    print("POWER: angle: {} angle_mapped: {}".format(angle, self.servo.angle))
 
                 self.motor.drive_forwards(tweaking.motor_speed_range[0])
 

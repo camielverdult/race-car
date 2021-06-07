@@ -94,6 +94,8 @@ class HwInterfacer:
             # Only drive while not avoiding obstacle
             if not self.in_range:
 
+                print("driving")
+
                 data = get_data_function()
 
                 # Theta:

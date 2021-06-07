@@ -110,8 +110,11 @@ class HwInterfacer:
                     # values are not updated yet, return 
                     return
 
-                print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
+
+                # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
                 self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_right, tweaking.servo_right)
+
+                print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
 
                 # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
 

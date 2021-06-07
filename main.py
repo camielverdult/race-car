@@ -12,7 +12,7 @@ class CarController:
     def __init__(self):
         self.data = data.data()
 
-        self.web_interface = car_web_interface.WebInterface(self.data.json)
+        #self.web_interface = car_web_interface.WebInterface(self.data.json)
 
         # self.capture = self.get_capture()
 

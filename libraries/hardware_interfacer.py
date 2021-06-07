@@ -96,10 +96,10 @@ class HwInterfacer:
 
     async def drive(self, line_detector):
         self.motor.drive_forwards(0.05)
-        time.sleep(4)
-        self.servo.value = tweaking.servo_right
+        time.sleep(3)
+        self.servo.angle = tweaking.servo_right
         time.sleep(2)
-        self.servo.value = tweaking.servo_middle
+        self.servo.angle = tweaking.servo_middle
 
         return
 

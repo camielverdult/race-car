@@ -48,8 +48,8 @@ class HwInterfacer:
         self.power_sensor = None
 
         self.motor.drive_forwards(1.00)
-        time.sleep(0.7)
-        self.motor.drive_forwards(tweaking.motor_speed_range[0])
+        # time.sleep(0.7)
+        # self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
     # This function is called when an object is close to us
     def avoid_object(self):
@@ -127,7 +127,7 @@ class HwInterfacer:
 
                     
                     # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
-                    self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right) / (math.pi / 2)
+                    self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right) / 2
 
                     print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
 

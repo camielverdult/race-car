@@ -139,7 +139,7 @@ class HwInterfacer:
                     #     # Take turn as slow as possible
                     #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
-                else:
+                elif abs(angle) > tweaking.steer_after_angle_two:
                     self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right) * 1.5
 
                     print("POWER: angle: {} angle_mapped: {}".format(angle, self.servo.angle))

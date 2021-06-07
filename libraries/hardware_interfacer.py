@@ -1,4 +1,6 @@
-import gpiozero, asyncio, time, tweaking, math #, adafruit_ina260, busio
+import gpiozero, asyncio, time, tweaking, math
+
+from gpiozero.output_devices import Servo #, adafruit_ina260, busio
 
 class HwInterfacer:
 
@@ -125,7 +127,17 @@ class HwInterfacer:
 
                 elif abs(angle) > tweaking.steer_after_angle:
                     # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
-                    self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
+                    # self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
+                    if angle > 0:
+                        # go right
+                        angle = angle * -1
+                        if angle > tweaking.servo_right:
+                            angle = tweaking.servo_right
+                    else:
+                        if angle > tweaking.servo_left:
+                            angle = tweaking.servo_left
+
+                    self.servo.angle = angle
 
                     print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
 

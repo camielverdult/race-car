@@ -84,6 +84,7 @@ class LineFinder:
         thetas = []
 
         if lines is None:
+            print("No lines detected")
             return ([], [])
 
         for line in lines:

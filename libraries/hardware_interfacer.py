@@ -96,7 +96,7 @@ class HwInterfacer:
         video_capture.set(3, 160)
         video_capture.set(4, 120)
 
-        self.motor.drive_forwards(0.04)
+        self.motor.drive_forwards(0.025)
 
         while asyncio.get_event_loop().is_running():
 

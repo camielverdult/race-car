@@ -106,23 +106,23 @@ class HwInterfacer:
 
                 print("lines: {}".format(len(lines)))
 
-                highest_1 = theta[0]
-                highest_i = -1
+                # highest_1 = theta[0]
+                # highest_i = -1
 
-                for i in range(len(theta)):
-                    if theta[i] > highest_1:
-                        highest_1 = theta[i]
-                        highest_i = i
+                # for i in range(len(theta)):
+                #     if theta[i] > highest_1:
+                #         highest_1 = theta[i]
+                #         highest_i = i
 
-                theta.pop(highest_i)
+                # theta.pop(highest_i)
 
-                highest_2 = theta[0]
+                # highest_2 = theta[0]
 
-                for i in range(len(theta)):
-                    if theta[i] > highest_2:
-                        highest_2 = theta[i]
+                # for i in range(len(theta)):
+                #     if theta[i] > highest_2:
+                #         highest_2 = theta[i]
 
-                theta = [highest_1, highest_2]
+                # theta = [highest_1, highest_2]
 
                 if theta:
                     theta = sum(theta)/len(theta)

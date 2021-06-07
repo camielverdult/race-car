@@ -83,7 +83,7 @@ class LineFinder:
         line_coords = []
         thetas = []
 
-        if not lines:
+        if not lines.tolist():
             return ([], [])
 
         for line in lines:

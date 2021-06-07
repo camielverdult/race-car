@@ -72,22 +72,6 @@ class CarController:
             # Update distance
             self.data.distance = self.hw_interfacer.distance_sensor.distance * 100
 
-            # Compute new lines
-
-            theta, lines = await self.line_detector.new_hough()
-
- 
-            if theta:
-                theta = sum(theta)/len(theta)
-            else:
-                theta = 0
-
-            angle = theta * (180/math.pi)
-
-            self.data.angle = angle
-
-            self.data.lines = lines
-
             self.data.resolution.x = self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)
             self.data.resolution.y = self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
         

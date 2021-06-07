@@ -51,7 +51,7 @@ class HwInterfacer:
         self.power_sensor = None
 
     # This function is called when an object is close to us
-    def avoid_object(self):
+    async def avoid_object(self):
         print("Avoiding object!")
         self.in_range = True
 
@@ -59,25 +59,25 @@ class HwInterfacer:
         self.motor.brake()
         self.servo.angle = tweaking.servo_middle
         self.motor.drive_backwards(tweaking.avoiding_drive_speed)
-        time.sleep(tweaking.avoiding_backwards_time)
+        await asyncio.sleep(tweaking.avoiding_backwards_time)
 
         # brake, steer right and drive forwards for 1.5 seconds
         self.motor.brake()
         self.servo.angle = tweaking.servo_right
         self.motor.drive_forwards(tweaking.avoiding_drive_speed)
-        time.sleep(tweaking.avoiding_forwards_time)
+        await asyncio.sleep(tweaking.avoiding_forwards_time)
 
         # Steer straight
         self.servo.angle = tweaking.servo_middle
-        time.sleep(tweaking.avoiding_straight_time)
+        await asyncio.sleep(tweaking.avoiding_straight_time)
 
         # Steer left towards the line
         self.servo.angle = tweaking.servo_left
-        time.sleep(tweaking.avoiding_steer_time)
+        await asyncio.sleep(tweaking.avoiding_steer_time)
 
         # Steer right to get back on the line
         self.servo.angle = tweaking.servo_right
-        time.sleep(tweaking.avoiding_steer_time)
+        await asyncio.sleep(tweaking.avoiding_steer_time)
 
         self.motor.brake()
         self.servo.angle = tweaking.servo_middle
@@ -138,7 +138,7 @@ class HwInterfacer:
 
                 cv2.drawContours(crop_img, contours, -1, (0,255,0), 1)
 
-                cv2.imwrite("lines.jpg", crop_img)
+                # cv2.imwrite("lines.jpg", crop_img)
 
                 print(cx)
 

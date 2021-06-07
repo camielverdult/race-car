@@ -134,9 +134,9 @@ class HwInterfacer:
 
                 cv2.line(crop_img,(0,cy),(1280,cy),(255,0,0),1)
 
-        
-
                 cv2.drawContours(crop_img, contours, -1, (0,255,0), 1)
+
+                cv2.imwrite("lines.jpg", crop_img)
 
                 print(cx)
 

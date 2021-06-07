@@ -160,7 +160,7 @@ class HwInterfacer:
                 # if abs(angle) > 30:
                 #     self.motor.drive_forwards(tweaking.motor_speed_range[1])
                 # else:
-                # self.motor.drive_forwards(tweaking.motor_speed_range[0])
+                self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
                 await asyncio.sleep(0.1)
 

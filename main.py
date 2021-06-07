@@ -1,4 +1,4 @@
-import data
+import data, math
 
 from libraries import car_web_interface, hardware_interfacer, image
 
@@ -77,16 +77,14 @@ class CarController:
             theta, lines = await self.line_detector.new_hough()
 
  
-            if len(theta) is 0:
-                self.data.theta.update(0)
+            if theta:
+                theta = sum(theta)/len(theta)
             else:
-                theta = theta[0]
+                theta = 0
 
-                if theta > tweaking.theta_check:
-                    # print("modifying line (> {})".format(tweaking.theta_check))
-                    theta = abs(theta - tweaking.theta_modifier) * -1
+            angle = theta * (180/math.pi)
 
-                self.data.theta.update(theta)
+            self.data.angle = angle
 
             self.data.lines = lines
 

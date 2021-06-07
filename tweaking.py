@@ -12,7 +12,7 @@ servo_right= -55
 servo_middle = (servo_left + servo_right) / 2 #-16
 nerf_angle = 10
 
-servo_mapping_values = [-60, 60]
+servo_mapping_values = [60, -60]
 
 motor_speed_range = [0.03, 0.05]
 motor_max = 0.1

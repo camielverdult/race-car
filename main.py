@@ -80,7 +80,7 @@ class CarController:
 
             theta, lines = await self.line_detector.new_hough()
 
-            self.data.theta.update(max(theta))
+            self.data.theta.update(sum(theta)/len(theta))
             self.data.lines = lines
 
             self.data.resolution.x = self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)

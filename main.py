@@ -78,8 +78,21 @@ class CarController:
             # if theta:
             #     theta = max(theta)
 
-            theta, lines = await self.line_detector.new_hough()
+            theta_avg = []
+            lines_avg = []
+            for i in range(6):
+                theta, lines = await self.line_detector.new_hough()
+                if not theta_avg:
+                    theta_avg = theta
+                else:
+                    for index in range(0, len(theta_avg)):
+                        theta_avg[0] = (theta_avg[0] + theta[0]) / 2
 
+                if not lines_avg:
+                    lines_avg = lines_avg
+                else:
+                    for index in range(0, len(lines)):
+                        theta_avg[0] = (theta_avg[0] + theta[0]) / 2
 
             if len(theta) is 0:
                 self.data.theta.update(0)

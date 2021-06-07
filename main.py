@@ -80,7 +80,7 @@ class CarController:
 
             theta, lines = await self.line_detector.new_hough()
 
-            if theta is None:
+            if len(theta) is 0:
                 self.data.theta.update(0)
             else:
                 self.data.theta.update(sum(theta)/len(theta))

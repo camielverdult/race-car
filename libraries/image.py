@@ -80,6 +80,10 @@ class LineFinder:
         edges = cv2.Canny(frame, 180, 255, apertureSize = 3)
         lines = cv2.HoughLines(edges, 1, np.pi/180, 200)
 
+        cv2.imwrite('frame.jpg', frame)
+        cv2.imwrite('edges.jpg', edges)
+        cv2.imwrite('lines.jpg', lines)
+
         line_coords = []
         thetas = []
 

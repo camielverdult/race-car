@@ -60,7 +60,7 @@ class CarController:
             loop.close()
 
     async def value_updater(self):
-        print("Starting line scanner...")
+        print("Starting value updater...")
         while asyncio.get_event_loop().is_running():
 
             # Update power readings
@@ -85,14 +85,14 @@ class CarController:
                 if not theta_avg:
                     theta_avg = theta
                 else:
-                    for index in range(0, len(theta_avg)):
-                        theta_avg[0] = (theta_avg[0] + theta[0]) / 2
+                    for index in range(0, len(theta)):
+                        theta_avg[index] = (theta_avg[index] + theta[index]) / 2
 
                 if not lines_avg:
                     lines_avg = lines_avg
                 else:
                     for index in range(0, len(lines)):
-                        theta_avg[0] = (theta_avg[0] + theta[0]) / 2
+                        theta_avg[index] = (theta_avg[index] + theta[index]) / 2
 
             if len(theta) is 0:
                 self.data.theta.update(0)

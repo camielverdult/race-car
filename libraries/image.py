@@ -82,7 +82,8 @@ class LineFinder:
 
         cv2.imwrite('frame.jpg', frame)
         cv2.imwrite('edges.jpg', edges)
-        cv2.imwrite('lines.jpg', lines)
+        if lines:
+            cv2.imwrite('lines.jpg', lines)
 
         line_coords = []
         thetas = []

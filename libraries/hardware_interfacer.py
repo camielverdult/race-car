@@ -50,10 +50,6 @@ class HwInterfacer:
         # except:
         self.power_sensor = None
 
-        # self.motor.drive_forwards(1.00)
-        # time.sleep(0.7)
-        # self.motor.drive_forwards(tweaking.motor_speed_range[0])
-
     # This function is called when an object is close to us
     def avoid_object(self):
         print("Avoiding object!")
@@ -100,7 +96,7 @@ class HwInterfacer:
         video_capture.set(3, 160)
         video_capture.set(4, 120)
 
-        self.motor.drive_forwards(0.05)
+        # self.motor.drive_forwards(0.05)
 
         while asyncio.get_event_loop().is_running():
 

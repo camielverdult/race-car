@@ -14,9 +14,9 @@ class CarController:
 
         self.web_interface = car_web_interface.WebInterface(self.data.json)
 
-        self.capture = self.get_capture()
+        # self.capture = self.get_capture()
 
-        self.line_detector = image.LineFinder(self.capture, self.data.get)
+        # self.line_detector = image.LineFinder(self.capture, self.data.get)
 
         self.hw_interfacer = hardware_interfacer.HwInterfacer(self.data.get)
 
@@ -44,10 +44,10 @@ class CarController:
         # Start coroutines
         try:
             # Value updating
-            asyncio.ensure_future(self.value_updater())
+            # asyncio.ensure_future(self.value_updater())
 
             # Web interface
-            asyncio.ensure_future(self.web_interface.run())
+            # asyncio.ensure_future(self.web_interface.run())
 
             # Hardware interface
             asyncio.ensure_future(self.hw_interfacer.drive(self.line_detector))

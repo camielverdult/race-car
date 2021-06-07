@@ -88,13 +88,13 @@ class HwInterfacer:
     def map_value(self, x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-    async def drive(self, get_data_function):
+    async def drive(self, data_class):
         while asyncio.get_event_loop().is_running():
 
             # Only drive while not avoiding obstacle
             if not self.in_range:
 
-                data = get_data_function()
+                data = data_class.theta.get()
 
                 # Theta:
                 # 0 means straight
@@ -104,26 +104,29 @@ class HwInterfacer:
                 # Laat de motor sturen op basis van de hoek die we krijgen
                 # De hoek die moet natuurlijk tussen de min en max stuur hoek liggen
                 # Dus we gebruiken deze als out_min en out_max waardes
-                a_min, angle, a_max = data.theta.get_angle()
+                a_min, angle, a_max = data_class.theta.get_angle()
 
                 if not a_min and not angle and not a_max:
                     # values are not updated yet, return 
                     print("no angle")
                     return
 
+                if angle is 0:
+                    angle = -1 * data_class.theta.previous[-1]
 
-                # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
-                self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
+                else:
+                    # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
+                    self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
 
-                print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
+                    print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
 
-                # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
+                    # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
 
-                # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
-                # en de min en max waarde van de motor
-                # if self.map_value(self.servo.angle, 0, tweaking.servo_right, tweaking.motor_speed_range[0], tweaking.motor_speed_range[1]):
-                #     # Take turn as slow as possible
-                #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
+                    # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
+                    # en de min en max waarde van de motor
+                    # if self.map_value(self.servo.angle, 0, tweaking.servo_right, tweaking.motor_speed_range[0], tweaking.motor_speed_range[1]):
+                    #     # Take turn as slow as possible
+                    #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
                 self.motor.drive_forwards(tweaking.motor_speed_range[0])
 

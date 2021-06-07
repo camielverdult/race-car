@@ -10,8 +10,11 @@ class theta:
         self.min: int = min
         self.max: int = max
         self.theta: int = theta
+        self.previous = []
 
     def update(self, theta: int):
+
+        self.previous.append([self.min, self.theta, self.max])
 
         if not theta:
             theta = 0

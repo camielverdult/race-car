@@ -119,7 +119,7 @@ class HwInterfacer:
 
                     
                     # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
-                    self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
+                    self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right) / 2 
 
                     print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
 

@@ -101,10 +101,28 @@ class HwInterfacer:
             # Only drive while not avoiding obstacle
             if not self.in_range:
 
-                theta, lines = await line_detector.new_hough()
+                theta: list; lines = await line_detector.new_hough()
 
                 print("lines: {}".format(len(lines)))
-            
+
+                highest_1 = theta[0]
+                highest_i = -1
+
+                for i in range(theta):
+                    if theta[i] > highest_1:
+                        highest_1 = theta[i]
+                        highest_i = i
+
+                theta.pop(highest_i)
+
+                highest_2 = theta[0]
+
+                for i in range(theta):
+                    if theta[i] > highest_2:
+                        highest_2 = theta[i]
+
+                theta = [highest_1, highest_2]
+
                 if theta:
                     theta = sum(theta)/len(theta)
                 else:

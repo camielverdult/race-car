@@ -90,7 +90,7 @@ class LineFinder:
         for line in lines:
             rho, theta = line[0]
             thetas.append(theta)
-            print(theta)
+            print("theta: {}".format(theta))
             a = np.cos(theta)
             b = np.sin(theta)
             x0 = a*rho

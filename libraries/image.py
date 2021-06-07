@@ -83,6 +83,9 @@ class LineFinder:
         line_coords = []
         thetas = []
 
+        if not lines:
+            ([], [])
+            
         for line in lines:
             rho, theta = line[0]
             thetas.append(theta)

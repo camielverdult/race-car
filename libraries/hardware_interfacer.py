@@ -48,7 +48,7 @@ class HwInterfacer:
         self.power_sensor = None
 
         self.motor.drive_forwards(1.00)
-        time.sleep(0.01)
+        time.sleep(0.1)
         self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
     # This function is called when an object is close to us

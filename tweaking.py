@@ -11,8 +11,8 @@ servo_left = 23
 servo_right= -50
 servo_middle = (servo_left + servo_right) / 2 #-16
 nerf_angle = 10
-steer_after_angle = 10
-steer_after_angle_two = 30
+steer_after_angle = 5
+steer_after_angle_two = 15
 
 servo_mapping_values = [40, -40]
 

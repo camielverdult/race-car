@@ -112,10 +112,10 @@ class HwInterfacer:
                     await asyncio.sleep(0.1)
                     continue
 
-                if abs(angle) > tweaking.steer_after_angle:
+                elif angle is 0:
+                    angle = -1 * data_class.theta.previous[-1]
 
-                    if angle is 0:
-                        angle = -1 * data_class.theta.previous[-1]
+                elif abs(angle) > tweaking.steer_after_angle:
 
                     else:
                         # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))

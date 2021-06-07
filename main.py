@@ -73,10 +73,12 @@ class CarController:
             self.data.distance = self.hw_interfacer.distance_sensor.distance * 100
 
             # Compute new lines
-            theta, lines = await self.line_detector.process_frame()
-            print(theta)
-            if theta:
-                theta = max(theta)
+            # theta, lines = await self.line_detector.process_frame()
+            # print(theta)
+            # if theta:
+            #     theta = max(theta)
+
+            theta, lines = await self.line_detector.new_hough()
 
             self.data.theta.update(theta)
             self.data.lines = lines

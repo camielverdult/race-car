@@ -109,24 +109,26 @@ class HwInterfacer:
                 if not a_min and not angle and not a_max:
                     # values are not updated yet, return 
                     print("no angle")
-                    return
+                    continue
 
-                if angle is 0:
-                    angle = -1 * data_class.theta.previous[-1]
+                if abs(angle) > tweaking.steer_after_angle:
 
-                else:
-                    # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
-                    self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
+                    if angle is 0:
+                        angle = -1 * data_class.theta.previous[-1]
 
-                    print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
+                    else:
+                        # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
+                        self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
 
-                    # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
+                        print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
 
-                    # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
-                    # en de min en max waarde van de motor
-                    # if self.map_value(self.servo.angle, 0, tweaking.servo_right, tweaking.motor_speed_range[0], tweaking.motor_speed_range[1]):
-                    #     # Take turn as slow as possible
-                    #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
+                        # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
+
+                        # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
+                        # en de min en max waarde van de motor
+                        # if self.map_value(self.servo.angle, 0, tweaking.servo_right, tweaking.motor_speed_range[0], tweaking.motor_speed_range[1]):
+                        #     # Take turn as slow as possible
+                        #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
                 self.motor.drive_forwards(tweaking.motor_speed_range[0])
 

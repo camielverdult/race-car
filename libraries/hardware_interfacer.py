@@ -125,7 +125,7 @@ class HwInterfacer:
 
                 elif abs(angle) > tweaking.steer_after_angle:
                     # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
-                    self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right) / 2
+                    self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
 
                     print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
 
@@ -142,10 +142,10 @@ class HwInterfacer:
 
                     # print("POWER: angle: {} angle_mapped: {}".format(angle, self.servo.angle))
 
-                if abs(angle) > 30:
-                    self.motor.drive_forwards(tweaking.motor_speed_range[1])
-                else:
-                    self.motor.drive_forwards(tweaking.motor_speed_range[0])
+                # if abs(angle) > 30:
+                #     self.motor.drive_forwards(tweaking.motor_speed_range[1])
+                # else:
+                # self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
                 await asyncio.sleep(0.1)
 

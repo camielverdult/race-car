@@ -101,7 +101,7 @@ class HwInterfacer:
             # Only drive while not avoiding obstacle
             if not self.in_range:
 
-                theta: list; lines = await line_detector.new_hough()
+                theta, lines = await line_detector.new_hough()
 
                 print("lines: {}".format(len(lines)))
 

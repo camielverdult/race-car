@@ -106,7 +106,7 @@ class HwInterfacer:
                 print("lines: {}".format(len(lines)))
             
                 if theta:
-                    theta = theta[0]
+                    theta = sum(theta)/len(theta)
                 else:
                     theta = 0
 

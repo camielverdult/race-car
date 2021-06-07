@@ -114,9 +114,9 @@ class HwInterfacer:
                 angle = theta * (180/math.pi)
 
                 if angle > 0 and angle < 90:
-                    self.servo.angle = tweaking.servo_right
+                    self.servo.angle = tweaking.servo_right * 0.5
                 else: 
-                    self.servo.angle = tweaking.servo_left
+                    self.servo.angle = tweaking.servo_left * 0.5
 
                 # if angle > 40 and angle < 90 or angle > 100 and angle < 0: 
                 #     self.motor.drive_forwards(0.1)

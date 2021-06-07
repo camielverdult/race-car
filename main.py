@@ -97,7 +97,7 @@ class CarController:
             self.data.resolution.y = self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
         
             # Sleep for the amount of time we need to achieve our FPS
-            await asyncio.sleep(1.0/self.fps)
+            await asyncio.sleep(0.05)
 
         print("Stopping value updater...")
 

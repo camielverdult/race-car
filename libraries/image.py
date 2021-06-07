@@ -52,7 +52,7 @@ class LineFinder:
                 for x1, y1, x2, y2 in line:
                     # cv2.line(image, (x1,y1), (x2,y2), (0,255,0), 2)
 
-                    theta.append(math.atan2((y2-y1), (x2-x1)))
+                    theta.append(math.atan2(abs(y2-y1), abs(x2-x1)))
 
             print("took {} seconds to run line detection".format(time.perf_counter() - start))
 

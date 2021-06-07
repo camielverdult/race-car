@@ -103,6 +103,8 @@ class HwInterfacer:
             # Capture the frames
             ret, frame = video_capture.read()
 
+            frame = cv2.bitwise_not(frame)
+
             # Crop the image
             crop_img = frame[60:120, 0:160]
 

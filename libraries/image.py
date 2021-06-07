@@ -88,13 +88,13 @@ class LineFinder:
         thetas = []
 
         if lines is None:
-            print("No lines detected")
+            # print("No lines detected")
             return ([], [])
 
         for line in lines:
             rho, theta = line[0]
             thetas.append(theta)
-            print("theta: {}".format(theta))
+            # print("theta: {}".format(theta))
             a = np.cos(theta)
             b = np.sin(theta)
             x0 = a*rho
@@ -109,6 +109,6 @@ class LineFinder:
         cv2.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
         cv2.imwrite('houghlines3.jpg', frame)
 
-        print("took {} seconds to run line detection".format(time.perf_counter() - start))
+        # print("took {} seconds to run line detection".format(time.perf_counter() - start))
 
         return (thetas, line_coords)

@@ -1,4 +1,4 @@
-import tweaking
+import tweaking, math
 
 class resolution:
     def __init__(self, x = 0, y = 0):
@@ -25,6 +25,10 @@ class theta:
 
     def get(self):
         return self.min, self.theta, self.max
+
+    def get_angle(self):
+        min_t, t, max_t = self.get()
+        return (min_t * (180.0/math.pi)), (t * (180.0/math.pi)), (max_t * (180.0/math.pi))
     
 class data:
     def __init__(self):
@@ -33,6 +37,7 @@ class data:
         # Camera/sensor stuff
         self.lines: list = []
         self.theta: theta = theta()
+        self.angle = 0
         self.resolution: resolution = resolution()
 
         # value from distance sensor
@@ -47,9 +52,7 @@ class data:
         return {
             # Camera/sensor stuff
             "lines" : self.lines,
-            "theta" : self.theta.theta,
-            "theta_min" : self.theta.min,
-            "theta_max" : self.theta.max,
+            "angle" : self.theta.get_angle()[1],
             "resolution" : [self.resolution.x, self.resolution.y],
 
             # Distance

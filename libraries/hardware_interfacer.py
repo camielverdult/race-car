@@ -104,14 +104,14 @@ class HwInterfacer:
 
                 theta, lines = await line_detector.new_hough()
 
-                print("lines: {}".format(len(lines)))
-
                 if theta:
                     theta = sum(theta)/len(theta)
                 else:
                     theta = 0
 
                 angle = theta * (180/math.pi)
+
+                print("lines: {}, angle: {}".format(len(lines), angle))
 
                 self.servo.angle = self.map_value(angle, 0, 180, tweaking.servo_left, tweaking.servo_right)
 

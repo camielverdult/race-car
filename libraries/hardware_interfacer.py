@@ -96,12 +96,6 @@ class HwInterfacer:
 
     async def drive(self, line_detector):
         self.motor.drive_forwards(0.05)
-        time.sleep(7)
-        self.servo.angle = tweaking.servo_right
-        time.sleep(2)
-        self.servo.angle = tweaking.servo_middle
-
-        return
 
         while asyncio.get_event_loop().is_running():
 
@@ -119,36 +113,7 @@ class HwInterfacer:
 
                 angle = theta * (180/math.pi)
 
-                if angle > 0 and angle < 90:
-                    self.servo.angle = tweaking.servo_right * 0.5
-                else: 
-                    self.servo.angle = tweaking.servo_left * 0.5
-
-                # if angle > 40 and angle < 90 or angle > 100 and angle < 0: 
-                #     self.motor.drive_forwards(0.1)
-                # else:
-                #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
-
-                continue
-
-                await asyncio.sleep(0.1)
-
-                if angle is 0:
-                    angle = -1 * angles[-1]
-                else:
-                    angles.append(angle)
-
-                if abs(angle) > tweaking.servo_mapping_values[0]:
-                    print("kut hoek")
-                    await asyncio.sleep(0.1)
-
-                elif abs(angle) > tweaking.steer_after_angle:
-                    self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
-
-                    self.servo.angle = angle
-
-                    print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
-
+                self.servo.angle = self.map_value(angle, 0, 180, tweaking.servo_left, tweaking.servo_right)
 
                 await asyncio.sleep(0.1)
 

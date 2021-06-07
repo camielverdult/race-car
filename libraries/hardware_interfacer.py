@@ -109,7 +109,7 @@ class HwInterfacer:
                 highest_1 = theta[0]
                 highest_i = -1
 
-                for i in range(theta):
+                for i in range(len(theta)):
                     if theta[i] > highest_1:
                         highest_1 = theta[i]
                         highest_i = i
@@ -118,7 +118,7 @@ class HwInterfacer:
 
                 highest_2 = theta[0]
 
-                for i in range(theta):
+                for i in range(len(theta)):
                     if theta[i] > highest_2:
                         highest_2 = theta[i]
 

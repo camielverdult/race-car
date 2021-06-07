@@ -1,6 +1,7 @@
 import gpiozero, asyncio, time, tweaking, math
 
 from gpiozero.output_devices import Servo #, adafruit_ina260, busio
+import cv2
 
 class HwInterfacer:
 
@@ -95,29 +96,67 @@ class HwInterfacer:
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
     async def drive(self, line_detector):
+        video_capture = cv2.VideoCapture(0)
+        video_capture.set(3, 160)
+        video_capture.set(4, 120)
+
         self.motor.drive_forwards(0.05)
 
         while asyncio.get_event_loop().is_running():
 
-            # Only drive while not avoiding obstacle
-            if not self.in_range:
+            # Capture the frames
+            ret, frame = video_capture.read()
 
-                theta, lines = await line_detector.new_hough()
+            # Crop the image
+            crop_img = frame[60:120, 0:160]
 
-                if theta:
-                    theta = sum(theta)/len(theta)
-                else:
-                    theta = 0
+            # Convert to grayscale
+            gray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
 
-                angle = theta * (180/math.pi)
+            # Gaussian blur
+            blur = cv2.GaussianBlur(gray,(5,5),0)
+            
+            # Color thresholding
+            ret,thresh1 = cv2.threshold(blur,60,255,cv2.THRESH_BINARY_INV)
 
-                print("lines: {}, angle: {}".format(len(lines), angle))
+             # Erode and dilate to remove accidental line detections
+            mask = cv2.erode(thresh1, None, iterations=2)
+            mask = cv2.dilate(mask, None, iterations=2)
 
-                angle = angle - 90
+            # Find the contours of the frame
+            contours,hierarchy = cv2.findContours(mask.copy(), 1, cv2.CHAIN_APPROX_NONE)
 
-                self.servo.angle = self.map_value(angle, -90, 90, tweaking.servo_left, tweaking.servo_right)
+            if len(contours) > 0:
+                c = max(contours, key=cv2.contourArea)
 
-                await asyncio.sleep(0.1)
+                M = cv2.moments(c)
+
+                cx = int(M['m10']/M['m00'])
+                cy = int(M['m01']/M['m00'])
+
+                print(cx)
+
+            await asyncio.sleep(0.1)
+
+            # # Only drive while not avoiding obstacle
+            # if not self.in_range:
+
+            #     theta, lines = await line_detector.new_hough()
+
+            #     if theta:
+            #         theta = sum(theta)/len(theta)
+            #     else:
+            #         theta = 0
+
+            #     angle = theta * (180/math.pi)
+
+            #     print("lines: {}, angle: {}".format(len(lines), angle))
+
+            #     angle = angle - 90
+
+            #     self.servo.angle = self.map_value(angle, -90, 90, tweaking.servo_left, tweaking.servo_right)
+
+            #     await asyncio.sleep(0.1)
 
 class MotorShield:
 

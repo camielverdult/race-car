@@ -5,7 +5,7 @@ from libraries import car_web_interface, hardware_interfacer, image
 import asyncio
 import os
 import cv2
-import time
+import tweaking
 
 class CarController:
 
@@ -80,12 +80,17 @@ class CarController:
 
             theta, lines = await self.line_detector.new_hough()
 
-            print(lines)
 
             if len(theta) is 0:
                 self.data.theta.update(0)
             else:
-                self.data.theta.update(theta[0])
+                theta = theta[0]
+
+                if theta > tweaking.theta_check:
+                    print("modifying line (> {})".format(tweaking.theta_check))
+                    theta = abs(theta - tweaking.theta_modifier)
+
+                self.data.theta.update(theta)
 
             self.data.lines = lines
 

@@ -115,6 +115,10 @@ class HwInterfacer:
                 elif angle is 0:
                     angle = -1 * data_class.theta.previous[-1]
 
+                if abs(angle) > tweaking.servo_mapping_values[0]:
+                    print("kut hoek")
+                    await asyncio.sleep(0.1)
+
                 elif abs(angle) > tweaking.steer_after_angle:
 
                     

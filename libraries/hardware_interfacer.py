@@ -91,14 +91,8 @@ class HwInterfacer:
     async def drive(self, get_data_function):
         while asyncio.get_event_loop().is_running():
 
-            return
-
-            print("kaas")
-
             # Only drive while not avoiding obstacle
             if not self.in_range:
-
-                print("driving")
 
                 data = get_data_function()
 
@@ -127,7 +121,7 @@ class HwInterfacer:
                 #     # Take turn as slow as possible
                 #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
-                self.motor.drive_forwards(tweaking.motor_speed_range[0])
+                # self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
                 await asyncio.sleep(0.1)
 

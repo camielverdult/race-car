@@ -104,15 +104,18 @@ class HwInterfacer:
                 # Laat de motor sturen op basis van de hoek die we krijgen
                 # De hoek die moet natuurlijk tussen de min en max stuur hoek liggen
                 # Dus we gebruiken deze als out_min en out_max waardes
-                self.servo.angle = self.map_value(data.theta.theta, data.theta_min, data.theta_max, tweaking.servo_right, tweaking.servo_right)
+                a_min, angle, a_max = data.theta.get_angle()
+                self.servo.angle = self.map_value(a_min - 180, angle - 180, a_max - 180, tweaking.servo_right, tweaking.servo_right)
 
                 # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
 
                 # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
                 # en de min en max waarde van de motor
-                if self.map_value(self.servo.angle, 0, tweaking.servo_right, tweaking.motor_speed_range[0], tweaking.motor_speed_range[1]):
-                    # Take turn as slow as possible
-                    self.motor.drive_forwards(tweaking.motor_speed_range[0])
+                # if self.map_value(self.servo.angle, 0, tweaking.servo_right, tweaking.motor_speed_range[0], tweaking.motor_speed_range[1]):
+                #     # Take turn as slow as possible
+                #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
+
+                self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
                 await asyncio.sleep(0.1)
 

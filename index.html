@@ -82,7 +82,7 @@
 
             for (var i = 0; i < data.lines.length; i++) {
                 console.log(`line in array: ${i}`);
-                line = data.lines[i][0];
+                line = data.lines[i];
                 console.log(`line coords: ${line}`);
                 line = map_line_coordinates(line, data.resolution, canvas);
                 console.log(`line mapped: ${line}`);

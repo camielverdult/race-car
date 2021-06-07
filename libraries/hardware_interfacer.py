@@ -94,32 +94,31 @@ class HwInterfacer:
     def map_value(self, x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-    async def drive(self, data_class):
+    async def drive(self, line_detector):
+        angles = []
         while asyncio.get_event_loop().is_running():
 
             # Only drive while not avoiding obstacle
             if not self.in_range:
 
-                data = data_class.theta.get()
+                theta, lines = await line_detector.new_hough()
+            
+                if theta:
+                    theta = theta[0]
+                else:
+                    theta = 0
 
-                # Theta:
-                # 0 means straight
-                # -x means left
-                # +x means right
+                if theta > tweaking.theta_check:
+                    # print("modifying line (> {})".format(tweaking.theta_check))
+                    theta = abs(theta - tweaking.theta_modifier) * -1
 
-                # Laat de motor sturen op basis van de hoek die we krijgen
-                # De hoek die moet natuurlijk tussen de min en max stuur hoek liggen
-                # Dus we gebruiken deze als out_min en out_max waardes
-                a_min, angle, a_max = data_class.theta.get_angle()
+                angle = theta * (180/math.pi)
 
-                if not a_min and not angle and not a_max:
-                    # values are not updated yet, return 
-                    print("no angle")
-                    await asyncio.sleep(0.1)
-                    continue
 
-                elif angle is 0:
-                    angle = -1 * data_class.theta.previous[-1]
+                if angle is 0:
+                    angle = -1 * angles[-1]
+                else:
+                    angles.append(angle)
 
                 if abs(angle) > tweaking.servo_mapping_values[0]:
                     print("kut hoek")
@@ -128,14 +127,16 @@ class HwInterfacer:
                 elif abs(angle) > tweaking.steer_after_angle:
                     # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
                     # self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
-                    if angle > 0:
-                        # go right
-                        angle = angle * -1
-                        if angle > tweaking.servo_right:
-                            angle = tweaking.servo_right
-                    else:
-                        if angle > tweaking.servo_left:
-                            angle = tweaking.servo_left
+                    # if angle > 0:
+                    #     # go right
+                    #     angle = angle * -1
+                    #     if angle > tweaking.servo_right:
+                    #         angle = tweaking.servo_right
+                    # else:
+                    #     if angle > tweaking.servo_left:
+                    #         angle = tweaking.servo_left
+
+                    self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
 
                     self.servo.angle = angle
 

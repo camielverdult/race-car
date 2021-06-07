@@ -102,6 +102,8 @@ class HwInterfacer:
             if not self.in_range:
 
                 theta, lines = await line_detector.new_hough()
+
+                print("lines: {}".format(len(lines)))
             
                 if theta:
                     theta = theta[0]

@@ -91,6 +91,8 @@ class HwInterfacer:
     async def drive(self, get_data_function):
         while asyncio.get_event_loop().is_running():
 
+            return
+
             print("kaas")
 
             # Only drive while not avoiding obstacle

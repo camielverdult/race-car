@@ -95,6 +95,7 @@ class HwInterfacer:
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
     async def drive(self, line_detector):
+        self.motor.drive_forwards(0.1)
         angles = []
         while asyncio.get_event_loop().is_running():
 
@@ -129,7 +130,6 @@ class HwInterfacer:
                     theta = 0
 
                 if theta > tweaking.theta_check:
-                    # print("modifying line (> {})".format(tweaking.theta_check))
                     theta = abs(theta - tweaking.theta_modifier) * -1
 
                 angle = theta * (180/math.pi)
@@ -145,40 +145,12 @@ class HwInterfacer:
                     await asyncio.sleep(0.1)
 
                 elif abs(angle) > tweaking.steer_after_angle:
-                    # print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
-                    # self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
-                    # if angle > 0:
-                    #     # go right
-                    #     angle = angle * -1
-                    #     if angle > tweaking.servo_right:
-                    #         angle = tweaking.servo_right
-                    # else:
-                    #     if angle > tweaking.servo_left:
-                    #         angle = tweaking.servo_left
-
                     self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right)
 
                     self.servo.angle = angle
 
                     print("angle: {} angle_mapped: {}".format(angle, self.servo.angle))
 
-                    # https://gpiozero.readthedocs.io/en/stable/api_output.html#gpiozero.Motor.value
-
-                    # Hetzelfde geldt hier, maar dan op basis van de hoek waarmee we sturen
-                    # en de min en max waarde van de motor
-                    # if self.map_value(self.servo.angle, 0, tweaking.servo_right, tweaking.motor_speed_range[0], tweaking.motor_speed_range[1]):
-                    #     # Take turn as slow as possible
-                    #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
-
-                # elif abs(angle) > tweaking.steer_after_angle_two:
-                    # self.servo.angle = self.map_value(angle, tweaking.servo_mapping_values[0], tweaking.servo_mapping_values[1], tweaking.servo_left, tweaking.servo_right) * 1.5
-
-                    # print("POWER: angle: {} angle_mapped: {}".format(angle, self.servo.angle))
-
-                # if abs(angle) > 30:
-                #     self.motor.drive_forwards(tweaking.motor_speed_range[1])
-                # else:
-                self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
                 await asyncio.sleep(0.1)
 

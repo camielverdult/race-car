@@ -107,6 +107,11 @@ class HwInterfacer:
                 # De hoek die moet natuurlijk tussen de min en max stuur hoek liggen
                 # Dus we gebruiken deze als out_min en out_max waardes
                 a_min, angle, a_max = data.theta.get_angle()
+
+                if not a_min and not angle and not a_max:
+                    # values are not updated yet, return 
+                    return
+
                 print("angle_min: {} angle: {} angle_max: {}".format(a_min, angle, a_max))
                 self.servo.angle = self.map_value(a_min - 180, angle - 180, a_max - 180, tweaking.servo_right, tweaking.servo_right)
 

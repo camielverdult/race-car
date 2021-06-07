@@ -132,6 +132,15 @@ class HwInterfacer:
 
                 print(cx)
 
+                if cx >= 120:
+                    self.servo.angle = tweaking.servo_left
+                
+                if cx < 120 and cx > 50:
+                    self.servo.angle = tweaking.servo_middle
+
+                if cx <= 50:
+                    self.servo.angle = tweaking.servo_right
+
             await asyncio.sleep(0.1)
 
             # # Only drive while not avoiding obstacle

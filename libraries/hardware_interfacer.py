@@ -124,7 +124,7 @@ class HwInterfacer:
                 #     # Take turn as slow as possible
                 #     self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
-                # self.motor.drive_forwards(tweaking.motor_speed_range[0])
+                self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
                 await asyncio.sleep(0.1)
 

@@ -109,6 +109,7 @@ class HwInterfacer:
                 if not a_min and not angle and not a_max:
                     # values are not updated yet, return 
                     print("no angle")
+                    await asyncio.sleep(0.1)
                     continue
 
                 if abs(angle) > tweaking.steer_after_angle:

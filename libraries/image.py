@@ -1,5 +1,6 @@
 import numpy as np
 import cv2, math, time
+import tweaking
 
 class LineFinder:
 
@@ -81,7 +82,7 @@ class LineFinder:
 
         cv2.imwrite('frame.jpg', frame)
 
-        lines = cv2.HoughLines(edges, 1, np.pi/180, 200)
+        lines = cv2.HoughLines(image=edges, rho=1, theta=np.pi/180, threshold=tweaking.min_line_length)
 
         line_coords = []
         thetas = []

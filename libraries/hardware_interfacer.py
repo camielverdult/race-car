@@ -112,9 +112,6 @@ class HwInterfacer:
 
         while True:
 
-            if self.distance_sensor.value < tweaking.sonar_threshold_distance:
-                await self.avoid_object()
-
             # Capture the frames
             ret, frame = video_capture.read()
 
@@ -177,6 +174,10 @@ class HwInterfacer:
                     self.motor.drive_forwards(tweaking.motor_speed_range[0])
                 
                 if cx < 120 and cx > 50:
+
+                    if self.distance_sensor.value < tweaking.sonar_threshold_distance:
+                        await self.avoid_object()
+
                     self.servo.angle = tweaking.servo_middle
                     self.motor.drive_forwards(tweaking.motor_speed_range[0])
 

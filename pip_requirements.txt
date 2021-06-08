@@ -4,4 +4,4 @@ asyncio
 RPi.GPIO
 gpiozero
 adafruit_ina260
-smbus
+adafruit-circuitpython-lsm6ds

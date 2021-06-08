@@ -1,5 +1,7 @@
 import gpiozero, asyncio, tweaking, cv2, time
-from libraries import lsm6ds3
+
+import board #import the board facilities.
+from adafruit_lsm6ds.lsm6ds33 import LSM6DS33 #import the facilities of the gyroscope.
 
 class HwInterfacer:
 
@@ -48,7 +50,9 @@ class HwInterfacer:
         # except:
         self.power_sensor = None
 
-        self.gyro = lsm6ds3.lsm303d()
+        i2c = board.I2C() # Determine the I2C address of the gyroscope.
+        self.gyro = LSM6DS33(i2c) # Create an object of the specific library of the sensor (gyroscope).
+
         time.sleep(1)
 
     # This function is called when an object is close to us
@@ -157,7 +161,7 @@ class HwInterfacer:
             else:
                 self.servo.angle = tweaking.servo_right
 
-            print("distance: {}, x-angle: {}".format(self.distance_sensor.value, self.gyro.getRealAccel()))
+            print("distance: {}, x-angle: {}".format(self.distance_sensor.value, self.gyro.acceleration[0]))
 
 class MotorShield:
 

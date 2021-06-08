@@ -20,7 +20,7 @@ bus = smbus.SMBus(1)
 
 class lsm303d:
 	# LSM303 Address definitions
-	LSM303D_ADDR	= 0x1E  # assuming SA0 grounded
+	LSM303D_ADDR	= 0x6A  # assuming SA0 grounded
 
 	# LSM303 Register definitions
 	TEMP_OUT_L		= 0x05

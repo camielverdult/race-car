@@ -66,7 +66,7 @@ class HwInterfacer:
         self.motor.brake()
         self.servo.angle = tweaking.servo_right
         self.motor.drive_forwards(tweaking.avoiding_drive_speed)
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
 
         # Steer straight
         self.servo.angle = tweaking.servo_middle

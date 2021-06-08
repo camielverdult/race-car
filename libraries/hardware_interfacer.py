@@ -167,8 +167,15 @@ class HwInterfacer:
             else:
                 self.servo.angle = tweaking.servo_right
 
-            print(self.gyro.acceleration[0])
-            if self.gyro.acceleration[0] < tweaking.gyro_power_angle:
+            helling = 0
+
+            for i in range(50):
+                helling += self.gyro.acceleration[0]
+
+            helling = helling / 50
+
+            print(helling)
+            if helling < tweaking.gyro_power_angle:
                 print("hill!")
                 self.servo.angle = tweaking.servo_middle
                 self.motor.value = tweaking.motor_max

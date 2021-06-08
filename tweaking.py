@@ -24,9 +24,9 @@ gyro_power_angle = -3
 sonar_threshold_distance = 0.20
 
 avoiding_backwards_time = 1.5
-avoiding_forwards_time = 3.5
+avoiding_forwards_time = 2
 avoiding_steer_time = 0.5
-avoiding_straight_time = 0.5
+avoiding_straight_time = 2
 avoiding_drive_speed = motor_speed_range[0]
 
 # motor shield pins:

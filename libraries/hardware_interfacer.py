@@ -183,7 +183,7 @@ class HwInterfacer:
 
             else:
                 self.servo.angle = tweaking.servo_right
-                # self.motor.drive_forwards(tweaking.motor_speed_range[0] + 0.01)
+                self.motor.drive_forwards(tweaking.motor_speed_range[0] + 0.007)
 
             # helling = 0
 

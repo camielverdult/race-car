@@ -110,7 +110,7 @@ class HwInterfacer:
 
         timer = 0
 
-        while asyncio.get_event_loop().is_running():
+        while True:
 
             if self.distance_sensor.value < tweaking.sonar_threshold_distance:
                 await self.avoid_object()

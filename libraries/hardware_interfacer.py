@@ -155,7 +155,7 @@ class HwInterfacer:
             else:
                 self.servo.angle = tweaking.servo_right
 
-            print("distance: {}, x-angle: {}".format(self.distance_sensor.value, self.gyro.getRealAccel()[0]))
+            print("distance: {}, x-angle: {}".format(self.distance_sensor.value, self.gyro.getRealAccel()))
 
 class MotorShield:
 

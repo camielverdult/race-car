@@ -13,7 +13,7 @@
 # For more information see https://github.com/DexterInd/GrovePi/blob/master/LICENSE
 
 import time
-import smbus, time
+import smbus
 import math
 
 bus = smbus.SMBus(1)

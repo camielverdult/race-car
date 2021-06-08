@@ -1,4 +1,4 @@
-import gpiozero, asyncio, tweaking, cv2
+import gpiozero, asyncio, tweaking, cv2, time
 from libraries import lsm6ds3
 
 class HwInterfacer:

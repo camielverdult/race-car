@@ -66,19 +66,19 @@ class HwInterfacer:
         self.motor.brake()
         self.servo.angle = tweaking.servo_right
         self.motor.drive_forwards(tweaking.avoiding_drive_speed)
-        await asyncio.sleep(tweaking.avoiding_forwards_time)
+        await asyncio.sleep(0.5)
 
         # Steer straight
         self.servo.angle = tweaking.servo_middle
-        await asyncio.sleep(tweaking.avoiding_straight_time)
+        await asyncio.sleep(0.5)
 
         # Steer left towards the line
         self.servo.angle = tweaking.servo_left
-        await asyncio.sleep(tweaking.avoiding_steer_time)
+        await asyncio.sleep(0.5)
 
         # Steer right to get back on the line
         self.servo.angle = tweaking.servo_right
-        await asyncio.sleep(tweaking.avoiding_steer_time)
+        await asyncio.sleep(0.5)
 
         self.motor.brake()
         self.servo.angle = tweaking.servo_middle

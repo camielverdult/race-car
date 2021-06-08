@@ -1,4 +1,4 @@
-import gpiozero, asyncio, tweaking, cv2, time
+import gpiozero, asyncio, tweaking, cv2, time, os
 
 import board #import the board facilities.
 from adafruit_lsm6ds.lsm6ds33 import LSM6DS33 #import the facilities of the gyroscope.
@@ -37,9 +37,7 @@ class HwInterfacer:
         # Connect the free ends of both resistors to another GPIO pin. This forms the required voltage divider.
         # Finally, connect the VCC pin of the sensor to a 5V pin on the Pi.
 
-        self.distance_sensor = gpiozero.DistanceSensor(echo=tweaking.sonar_echo_pin, trigger=tweaking.sonar_trigger_pin, threshold_distance=tweaking.sonar_threshold_distance)
-        self.distance_sensor.when_activated = self.avoid_object
-        self.in_range = False
+        self.distance_sensor = gpiozero.DistanceSensor(echo=tweaking.sonar_echo_pin, trigger=tweaking.sonar_trigger_pin)
 
         # Set servo to middle
         print("Setting servo to start value {}".format(tweaking.servo_middle))
@@ -56,13 +54,10 @@ class HwInterfacer:
     # This function is called when an object is close to us
     async def avoid_object(self):
         print("Avoiding object!")
-        self.in_range = True
 
-        # Brake, steer straight, and back up for a second
+        # Brake and steer straight
         self.motor.brake()
         self.servo.angle = tweaking.servo_middle
-        self.motor.drive_backwards(tweaking.avoiding_drive_speed)
-        await asyncio.sleep(tweaking.avoiding_backwards_time)
 
         # brake, steer right and drive forwards for 1.5 seconds
         self.motor.brake()
@@ -85,9 +80,6 @@ class HwInterfacer:
         self.motor.brake()
         self.servo.angle = tweaking.servo_middle
 
-        # Let line following take over
-        self.in_range = False
-
     def set_servo(self, degrees):   
         self.servo.angle = degrees  
 
@@ -104,6 +96,9 @@ class HwInterfacer:
         self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
         while asyncio.get_event_loop().is_running():
+
+            if self.distance_sensor.value < tweaking.sonar_threshold_distance:
+                await self.avoid_object()
 
             # Capture the frames
             ret, frame = video_capture.read()
@@ -126,8 +121,16 @@ class HwInterfacer:
             mask = cv2.erode(thresh1, None, iterations=2)
             mask = cv2.dilate(mask, None, iterations=2)
 
+            circles = cv2.HoughCircles(mask, cv2.HOUGH_GRADIENT, 1.2, 100)
+            if circles:
+                print("Circle found, goodbye!")
+                self.servo.angle = tweaking.servo_middle
+                await asyncio.sleep(1)
+                os._exit(0)
+                
+
             # Find the contours of the frame
-            contours,hierarchy = cv2.findContours(mask.copy(), 1, cv2.CHAIN_APPROX_NONE)
+            contours, hierarchy = cv2.findContours(mask.copy(), 1, cv2.CHAIN_APPROX_NONE)
 
             if len(contours) > 0:
                 c = max(contours, key=cv2.contourArea)
@@ -143,7 +146,12 @@ class HwInterfacer:
 
                 cv2.drawContours(crop_img, contours, -1, (0,255,0), 1)
 
-                cv2.imwrite("lines.jpg", crop_img)
+                # cv2.imwrite("lines.jpg", crop_img)
+
+                (flag, encodedImage) = cv2.imencode(".jpg", crop_img)
+
+                if flag:
+                    pass
 
                 print(cx)
 

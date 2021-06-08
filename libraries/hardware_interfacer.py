@@ -88,16 +88,16 @@ class HwInterfacer:
 
     async def drive(self, line_detector):
 
-        # while True:
+        while True:
 
-        #     self.motor.drive_forwards(0.3)
-        #     await asyncio.sleep(1)
-        #     self.motor.brake()
-        #     await asyncio.sleep(1)
-        #     self.motor.drive_backwards(0.3)
-        #     await asyncio.sleep(1)
-        #     self.motor.brake()
-        #     await asyncio.sleep(1)
+            self.motor.drive_forwards(0.3)
+            await asyncio.sleep(1)
+            self.motor.brake()
+            await asyncio.sleep(1)
+            self.motor.drive_backwards(0.3)
+            await asyncio.sleep(1)
+            self.motor.brake()
+            await asyncio.sleep(1)
 
         video_capture = cv2.VideoCapture(0)
         video_capture.set(3, 160)

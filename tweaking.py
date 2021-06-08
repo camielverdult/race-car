@@ -17,7 +17,7 @@ steer_after_angle_two = 25
 servo_mapping_values = [-50, 50]
 
 motor_speed_range = [0.035, 0.05]
-motor_max = 0.8
+motor_max = 1
 
 gyro_power_angle = -3
 

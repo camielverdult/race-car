@@ -48,12 +48,8 @@ class HwInterfacer:
         # except:
         self.power_sensor = None
 
-        self.gyro = lsm6ds3.lsm303d() #ACC_ODR=lsm6ds3.ACC_ODR_1_66_KHZ,
-        #       GYRO_ODR=lsm6ds3.GYRO_ODR_1_66_KHZ,
-        #       enable_acc=lsm6ds3.ENABLE_ACC_ALL_AXIS,
-        #       enable_gyro=lsm6ds3.ENABLE_GYRO_ALL_AXIS,
-        #       acc_scale=lsm6ds3.ACC_SCALE_16G,
-        #       gyro_scale=lsm6ds3.GYRO_SCALE_2000DPS)
+        self.gyro = lsm6ds3.lsm303d()
+        time.sleep(1)
 
     # This function is called when an object is close to us
     async def avoid_object(self):

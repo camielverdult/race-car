@@ -74,7 +74,7 @@ class HwInterfacer:
 
         # Steer left
         self.servo.angle = tweaking.servo_left
-        await asyncio.sleep(1.2)
+        await asyncio.sleep(0.8)
 
         # # Steer right to get back on the line
         # self.servo.angle = tweaking.servo_right

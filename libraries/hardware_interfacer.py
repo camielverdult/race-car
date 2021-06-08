@@ -106,7 +106,7 @@ class HwInterfacer:
         video_capture.set(3, 160)
         video_capture.set(4, 120)
 
-        self.motor.drive_forwards(tweaking.motor_speed_range[0] + 0.05)
+        self.motor.drive_forwards(tweaking.motor_speed_range[0] + 0.01)
 
         timer = 0
 
@@ -178,7 +178,7 @@ class HwInterfacer:
                 
                 if cx < 120 and cx > 50:
                     self.servo.angle = tweaking.servo_middle
-                    self.motor.drive_forwards(tweaking.motor_speed_range[0] + 0.05)
+                    self.motor.drive_forwards(tweaking.motor_speed_range[0] + 0.01)
 
                 if cx <= 50:
                     self.motor.brake()

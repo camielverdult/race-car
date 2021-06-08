@@ -21,7 +21,7 @@ motor_max = 1
 
 gyro_power_angle = -3
 
-sonar_threshold_distance = 0.20
+sonar_threshold_distance = 0.8
 
 avoiding_backwards_time = 1.5
 avoiding_forwards_time = 2

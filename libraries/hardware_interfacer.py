@@ -173,15 +173,15 @@ class HwInterfacer:
 
                 if cx >= 120:
                     self.servo.angle = tweaking.servo_right / 2
-                    # self.motor.drive_forwards(tweaking.motor_speed_range[0] + 0.01)
+                    self.motor.drive_forwards(tweaking.motor_speed_range[0] + 0.003)
                 
                 if cx < 120 and cx > 50:
                     self.servo.angle = tweaking.servo_middle
-                    # self.motor.drive_forwards(tweaking.motor_speed_range[0])
+                    self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
                 if cx <= 50:
                     self.servo.angle = tweaking.servo_left / 2
-                    # self.motor.drive_forwards(tweaking.motor_speed_range[0] + 0.01)
+                    self.motor.drive_forwards(tweaking.motor_speed_range[0] + 0.003)
 
                 timer = time.perf_counter()
 

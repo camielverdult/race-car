@@ -48,8 +48,11 @@ class HwInterfacer:
         # except:
         self.power_sensor = None
 
-        i2c = board.I2C() # Determine the I2C address of the gyroscope.
-        self.gyro = LSM6DS33(i2c) # Create an object of the specific library of the sensor (gyroscope).
+        try:
+            i2c = board.I2C() # Determine the I2C address of the gyroscope.
+            self.gyro = LSM6DS33(i2c) # Create an object of the specific library of the sensor (gyroscope).
+        except:
+            self.gyro = None
 
     # This function is called when an object is close to us
     async def avoid_object(self):

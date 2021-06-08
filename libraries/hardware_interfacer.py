@@ -1,7 +1,5 @@
-import gpiozero, asyncio, time, tweaking, math
-
-from gpiozero.output_devices import Servo #, adafruit_ina260, busio
-import cv2
+import gpiozero, asyncio, tweaking, cv2
+from libraries import lsm6ds3
 
 class HwInterfacer:
 
@@ -49,6 +47,13 @@ class HwInterfacer:
         #     self.power_sensor = adafruit_ina260.INA260(busio.I2C(tweaking.scl, tweaking.sda))
         # except:
         self.power_sensor = None
+
+        self.gyro = lsm6ds3.LSM6DS3(ACC_ODR=lsm6ds3.ACC_ODR_1_66_KHZ,
+              GYRO_ODR=lsm6ds3.GYRO_ODR_1_66_KHZ,
+              enable_acc=lsm6ds3.ENABLE_ACC_ALL_AXIS,
+              enable_gyro=lsm6ds3.ENABLE_GYRO_ALL_AXIS,
+              acc_scale=lsm6ds3.ACC_SCALE_16G,
+              gyro_scale=lsm6ds3.GYRO_SCALE_2000DPS)
 
     # This function is called when an object is close to us
     async def avoid_object(self):

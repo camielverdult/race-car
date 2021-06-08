@@ -16,8 +16,6 @@ class CarController:
 
         # self.capture = self.get_capture()
 
-        # self.line_detector = image.LineFinder(self.capture, self.data.get)
-
         self.hw_interfacer = hardware_interfacer.HwInterfacer(self.data.get)
 
         self.fps = 10

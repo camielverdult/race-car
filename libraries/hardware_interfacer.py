@@ -53,8 +53,6 @@ class HwInterfacer:
         i2c = board.I2C() # Determine the I2C address of the gyroscope.
         self.gyro = LSM6DS33(i2c) # Create an object of the specific library of the sensor (gyroscope).
 
-        time.sleep(1)
-
     # This function is called when an object is close to us
     async def avoid_object(self):
         print("Avoiding object!")
@@ -101,9 +99,9 @@ class HwInterfacer:
         video_capture.set(3, 160)
         video_capture.set(4, 120)
 
-        self.motor.drive_forwards(0.3)
-        await asyncio.sleep(tweaking.motor_speed_range[0] * 2)
-        self.motor.drive_backwards(tweaking.motor_speed_range[0])
+        self.motor.drive_forwards(tweaking.motor_speed_range[0] * 2)
+        await asyncio.sleep(0.4)
+        self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
         while asyncio.get_event_loop().is_running():
 

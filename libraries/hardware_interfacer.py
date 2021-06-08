@@ -48,7 +48,7 @@ class HwInterfacer:
         # except:
         self.power_sensor = None
 
-        self.gyro = lsm6ds3.LSM6DS3() #ACC_ODR=lsm6ds3.ACC_ODR_1_66_KHZ,
+        self.gyro = lsm6ds3.lsm303d() #ACC_ODR=lsm6ds3.ACC_ODR_1_66_KHZ,
         #       GYRO_ODR=lsm6ds3.GYRO_ODR_1_66_KHZ,
         #       enable_acc=lsm6ds3.ENABLE_ACC_ALL_AXIS,
         #       enable_gyro=lsm6ds3.ENABLE_GYRO_ALL_AXIS,
@@ -159,26 +159,7 @@ class HwInterfacer:
             else:
                 self.servo.angle = tweaking.servo_right
 
-
-            # # Only drive while not avoiding obstacle
-            # if not self.in_range:
-
-            #     theta, lines = await line_detector.new_hough()
-
-            #     if theta:
-            #         theta = sum(theta)/len(theta)
-            #     else:
-            #         theta = 0
-
-            #     angle = theta * (180/math.pi)
-
-            #     print("lines: {}, angle: {}".format(len(lines), angle))
-
-            #     angle = angle - 90
-
-            #     self.servo.angle = self.map_value(angle, -90, 90, tweaking.servo_left, tweaking.servo_right)
-
-            #     await asyncio.sleep(0.1)
+            print("distance: {}, x-angle: {}".format(self.distance_sensor.value, self.gyro.getRealAccel()[0]))
 
 class MotorShield:
 

@@ -108,6 +108,8 @@ class HwInterfacer:
 
         self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
+        timer = 0
+
         while asyncio.get_event_loop().is_running():
 
             if self.distance_sensor.value < tweaking.sonar_threshold_distance:

@@ -145,6 +145,7 @@ class HwInterfacer:
             contours, hierarchy = cv2.findContours(mask.copy(), 1, cv2.CHAIN_APPROX_NONE)
 
             if len(contours) > 0:
+                self.motor.value = tweaking.motor_speed_range
                 c = max(contours, key=cv2.contourArea)
 
                 M = cv2.moments(c)
@@ -178,6 +179,7 @@ class HwInterfacer:
 
             else:
                 self.servo.angle = tweaking.servo_right
+                self.motor.value = tweaking.motor_speed_range + 0.2
 
             # helling = 0
 

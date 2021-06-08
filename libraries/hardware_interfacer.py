@@ -173,19 +173,19 @@ class HwInterfacer:
 
                 if cx >= 120:
                     self.servo.angle = tweaking.servo_right / 2
-                    self.motor.value = tweaking.motor_speed_range + 0.1
+                    self.motor.value = tweaking.motor_speed_range[0] + 0.1
                 
                 if cx < 120 and cx > 50:
                     self.servo.angle = tweaking.servo_middle
-                    self.motor.value = tweaking.motor_speed_range
+                    self.motor.value = tweaking.motor_speed_range[0]
 
                 if cx <= 50:
                     self.servo.angle = tweaking.servo_left / 2
-                    self.motor.value = tweaking.motor_speed_range + 0.1
+                    self.motor.value = tweaking.motor_speed_range[0] + 0.1
 
             else:
                 self.servo.angle = tweaking.servo_right
-                self.motor.value = tweaking.motor_speed_range + 0.2
+                self.motor.value = tweaking.motor_speed_range[0] + 0.2
 
             # helling = 0
 

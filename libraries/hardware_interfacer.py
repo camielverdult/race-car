@@ -162,6 +162,7 @@ class HwInterfacer:
             print(self.gyro.acceleration[0])
             if self.gyro.acceleration[0] < tweaking.gyro_power_angle:
                 print("hill!")
+                self.servo.angle = tweaking.servo_middle
                 self.motor.value = tweaking.motor_max
                 await asyncio.sleep(0.5)
                 self.motor.value = tweaking.motor_speed_range[0]

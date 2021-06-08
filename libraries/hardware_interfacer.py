@@ -88,16 +88,16 @@ class HwInterfacer:
 
     async def drive(self, line_detector):
 
-        while True:
+        # while True:
 
-            self.motor.drive_forwards(0.3)
-            await asyncio.sleep(1)
-            self.motor.brake()
-            await asyncio.sleep(1)
-            self.motor.drive_backwards(0.3)
-            await asyncio.sleep(1)
-            self.motor.brake()
-            await asyncio.sleep(1)
+        #     self.motor.drive_forwards(0.3)
+        #     await asyncio.sleep(1)
+        #     self.motor.brake()
+        #     await asyncio.sleep(1)
+        #     self.motor.drive_backwards(0.3)
+        #     await asyncio.sleep(1)
+        #     self.motor.brake()
+        #     await asyncio.sleep(1)
 
         video_capture = cv2.VideoCapture(0)
         video_capture.set(3, 160)
@@ -133,12 +133,12 @@ class HwInterfacer:
             mask = cv2.erode(thresh1, None, iterations=2)
             mask = cv2.dilate(mask, None, iterations=2)
 
-            circles = cv2.HoughCircles(mask, cv2.HOUGH_GRADIENT, 1.2, 100)
-            if circles:
-                print("Circle found, goodbye!")
-                self.servo.angle = tweaking.servo_middle
-                await asyncio.sleep(1)
-                os._exit(0)
+            # circles = cv2.HoughCircles(mask, cv2.HOUGH_GRADIENT, 1.2, 100)
+            # if circles:
+            #     print("Circle found, goodbye!")
+            #     self.servo.angle = tweaking.servo_middle
+            #     await asyncio.sleep(1)
+            #     os._exit(0)
                 
 
             # Find the contours of the frame
@@ -160,10 +160,10 @@ class HwInterfacer:
 
                 # cv2.imwrite("lines.jpg", crop_img)
 
-                (flag, encodedImage) = cv2.imencode(".jpg", crop_img)
+                # (flag, encodedImage) = cv2.imencode(".jpg", crop_img)
 
-                if flag:
-                    pass
+                # if flag:
+                #     pass
 
                 print(cx)
 
@@ -179,20 +179,20 @@ class HwInterfacer:
             else:
                 self.servo.angle = tweaking.servo_right
 
-            helling = 0
+            # helling = 0
 
-            for i in range(10):
-                helling += self.gyro.acceleration[0]
+            # for i in range(10):
+            #     helling += self.gyro.acceleration[0]
 
-            helling = helling / 10
+            # helling = helling / 10
 
-            print(helling)
-            if helling < tweaking.gyro_power_angle:
-                print("hill!")
-                self.servo.angle = tweaking.servo_middle
-                self.motor.value = tweaking.motor_max
-                await asyncio.sleep(0.5)
-                self.motor.value = tweaking.motor_speed_range[0]
+            # print(helling)
+            # if helling < tweaking.gyro_power_angle:
+            #     print("hill!")
+            #     self.servo.angle = tweaking.servo_middle
+            #     self.motor.value = tweaking.motor_max
+            #     await asyncio.sleep(0.5)
+            #     self.motor.value = tweaking.motor_speed_range[0]
             
                 
 

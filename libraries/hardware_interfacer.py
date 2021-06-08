@@ -112,6 +112,8 @@ class HwInterfacer:
 
         while True:
 
+        
+
             if self.distance_sensor.value < tweaking.sonar_threshold_distance:
                 await self.avoid_object()
 

@@ -112,8 +112,6 @@ class HwInterfacer:
 
         while True:
 
-        
-
             if self.distance_sensor.value < tweaking.sonar_threshold_distance:
                 await self.avoid_object()
 
@@ -197,20 +195,20 @@ class HwInterfacer:
                 else:
                     self.motor.drive_forwards(tweaking.motor_speed_range[0])
 
-            # helling = 0
+            helling = 0
 
-            # for i in range(10):
-            #     helling += self.gyro.acceleration[0]
+            for i in range(10):
+                helling += self.gyro.acceleration[0]
 
-            # helling = helling / 10
+            helling = helling / 10
 
-            # print(helling)
-            # if helling < tweaking.gyro_power_angle:
-            #     print("hill!")
-            #     self.servo.angle = tweaking.servo_middle
-            #     self.motor.value = tweaking.motor_max
-            #     await asyncio.sleep(0.5)
-            #     self.motor.value = tweaking.motor_speed_range[0]
+            print(helling)
+            if helling < tweaking.gyro_power_angle:
+                print("hill!")
+                self.servo.angle = tweaking.servo_middle
+                self.motor.value = tweaking.motor_max
+                await asyncio.sleep(0.5)
+                self.motor.value = tweaking.motor_speed_range[0]
             
                 
 
@@ -274,12 +272,12 @@ class MotorShield:
         self.m_pwm.value = speed
 
     def drive_forwards(self, speed: float):
-        # self.drive_forwards.off()
+        self.drive_forwards.off()
         speed = min(speed, tweaking.motor_max)
         self.motor_go(1, speed)
 
     def drive_backwards(self, speed: float):
-        # self.drive_forwards.on()
+        self.drive_forwards.on()
         speed = min(speed, tweaking.motor_max)
         self.motor_go(2, speed)
 

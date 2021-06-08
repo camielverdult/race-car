@@ -169,10 +169,10 @@ class HwInterfacer:
 
             helling = 0
 
-            for i in range(50):
+            for i in range(10):
                 helling += self.gyro.acceleration[0]
 
-            helling = helling / 50
+            helling = helling / 10
 
             print(helling)
             if helling < tweaking.gyro_power_angle:

@@ -161,7 +161,12 @@ class HwInterfacer:
             else:
                 self.servo.angle = tweaking.servo_right
 
-            print("distance: {}, x-angle: {}".format(self.distance_sensor.value, self.gyro.acceleration[0]))
+            if self.gyro.acceleration[0] < tweaking.gyro_power_angle:
+                self.motor.value = tweaking.motor_max
+                await asyncio.sleep(0.5)
+                self.motor.value = tweaking.motor_speed_range[0]
+            
+                
 
 class MotorShield:
 

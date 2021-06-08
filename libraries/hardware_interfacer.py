@@ -87,6 +87,18 @@ class HwInterfacer:
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
     async def drive(self, line_detector):
+
+        while True:
+
+            self.motor.drive_forwards(0.3)
+            await asyncio.sleep(1)
+            self.motor.brake()
+            await asyncio.sleep(1)
+            self.motor.drive_backwards(0.3)
+            await asyncio.sleep(1)
+            self.motor.brake()
+            await asyncio.sleep(1)
+
         video_capture = cv2.VideoCapture(0)
         video_capture.set(3, 160)
         video_capture.set(4, 120)
@@ -206,6 +218,8 @@ class MotorShield:
 
         self.m_enable_1 = gpiozero.DigitalOutputDevice(enable_pin, active_high=True)
 
+        self.m_forwards_control = gpiozero.DigitalOutputDevice(tweaking.reverse_pin, active_high=True)
+
         # pwm value is between 0 and 1
         self.m_pwm = gpiozero.PWMOutputDevice(pwm_pin)
 
@@ -242,10 +256,12 @@ class MotorShield:
         self.m_pwm.value = speed
 
     def drive_forwards(self, speed: float):
+        self.drive_forwards.off()
         speed = min(speed, tweaking.motor_max)
         self.motor_go(1, speed)
 
     def drive_backwards(self, speed: float):
+        self.drive_forwards.on()
         speed = min(speed, tweaking.motor_max)
         self.motor_go(2, speed)
 

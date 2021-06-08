@@ -40,6 +40,7 @@ avoiding_drive_speed = motor_speed_range[0]
 input_pins = [6, 26]  # This pin control the state of the bridge in normal operation according to the truth table (brake to VCC, brake to GND, clockwise and counterclockwise).
 pwm_pin = 5     # Gates of low side FETs are modulated by the PWM signal during their ON phase allowing speed control of the motor.
 enable_pin = 13  # When externally pulled low, they disable half-bridge A or B
+reverse_pin = 15
 
 # I2c pins
 sda = 2
